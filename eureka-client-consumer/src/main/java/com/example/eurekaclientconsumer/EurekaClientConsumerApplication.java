@@ -1,4 +1,4 @@
-package com.example.eurekaclient;
+package com.example.eurekaclientconsumer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,14 +7,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-public class EurekaClientApplication {
+public class EurekaClientConsumerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EurekaClientApplication.class, args);
+		SpringApplication.run(EurekaClientConsumerApplication.class, args);
 	}
 
 	@Bean
-	// @LoadBalanced
+	@LoadBalanced
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
