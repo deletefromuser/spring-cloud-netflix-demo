@@ -2,13 +2,13 @@ spring:
   application:
     name: eureka-client-todo-service
 server:
-  port: 8080
+  port: 0
 eureka:
   client:
     serviceUrl:
       defaultZone: 
-        # http://localhost:8761/eureka,
-        # http://localhost:8762/eureka
-        ${EUREKA_URI:http://localhost:8761/eureka}
+         http://localhost:8761/eureka,
+         http://localhost:8762/eureka
+        # ${EUREKA_URI:http://localhost:8761/eureka}
   instance:
     preferIpAddress: true
