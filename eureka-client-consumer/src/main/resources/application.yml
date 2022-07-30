@@ -1,14 +1,16 @@
 spring:
   application:
     name: eureka-client-todo-consumer
-server:
-  port: 8081
+  config:
+    import: configserver:http://localhost:8888
+# server:
+#   port: 8081
 eureka:
-  client:
-    serviceUrl:
-      defaultZone: 
-        http://localhost:8761/eureka,
-        http://localhost:8762/eureka
+  # client:
+  #   serviceUrl:
+  #     defaultZone: 
+  #       http://localhost:8761/eureka,
+  #       http://localhost:8762/eureka
         # ${EUREKA_URI:http://localhost:8761/eureka}
   instance:
     preferIpAddress: true
