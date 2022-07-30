@@ -1,0 +1,17 @@
+spring:
+  application: 
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: http://localhost:10880/gogs/todo-config
+        #   username: tacocloud
+        #   password: s3cr3tP455w0rd
+
+server:
+  port: 8888
+#   servlet:
+#     context-path: /config-server
+
+
