@@ -11,7 +11,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.example.eurekaclient.model.Todo;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
+@Slf4j
 public class TodoController {
 
     RestTemplate restTemplate;
@@ -35,6 +38,7 @@ public class TodoController {
     }
 
     private List<Todo> getTodoList() {
+        log.info("service called");
         if (list == null) {
             list = restTemplate.exchange("https://jsonplaceholder.typicode.com/todos", HttpMethod.GET, null,
                     new ParameterizedTypeReference<List<Todo>>() {

@@ -2,6 +2,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://${other.eureka.host}:${other.eureka.port}/eureka
+  server:
+    enable-self-preservation: false
 
 ---
 spring:

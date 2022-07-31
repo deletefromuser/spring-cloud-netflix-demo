@@ -45,6 +45,5 @@ public class TodoController {
     @GetMapping("/todos/{id}")
     public Todo getTodo(@PathVariable int id) {
         return todoClient.getTodo(id);
-
     }
 }
