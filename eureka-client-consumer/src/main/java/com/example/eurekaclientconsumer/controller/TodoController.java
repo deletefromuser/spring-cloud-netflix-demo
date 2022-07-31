@@ -1,7 +1,9 @@
 package com.example.eurekaclientconsumer.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -38,12 +40,17 @@ public class TodoController {
     @GetMapping("/todos")
     public List<Todo> getTodos() {
         return todoClient.getTodos();
-
     }
 
     // use FeignClient
     @GetMapping("/todos/{id}")
     public Todo getTodo(@PathVariable int id) {
         return todoClient.getTodo(id);
+    }
+
+    // use Config Server refresh
+    @GetMapping("/todos/length")
+    public Map<String, Integer> configRefresh(@Value("${todo.list.length}") int length) {
+        return Map.of("length", length);
     }
 }
