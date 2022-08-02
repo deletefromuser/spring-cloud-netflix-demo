@@ -65,6 +65,20 @@ resilience4j.circuitbreaker:
         - java.util.concurrent.TimeoutException
         - org.springframework.web.client.ResourceAccessException
 
+# to understand the bulkhead concept, watch https://www.youtube.com/watch?v=Kh3HxWk8YF4
+resilience4j.bulkhead:
+  instances:
+    getTodoWithId:
+      maxWaitDuration: 10ms
+      maxConcurrentCalls: 10
+
+resilience4j.thread-pool-bulkhead:
+  instances:
+    getTodoWithId:
+      maxThreadPoolSize: 1
+      coreThreadPoolSize: 1
+      queueCapacity: 1
+      keepAliveDuration: 20ms
 
 
 

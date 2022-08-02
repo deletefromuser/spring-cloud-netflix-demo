@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import com.example.eurekaclientconsumer.feignclient.TodoClient;
 import com.example.eurekaclientconsumer.model.Todo;
 
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,7 +52,9 @@ public class TodoController {
     // use FeignClient
     @GetMapping("/todos/{id}")
     @CircuitBreaker(name = "getTodoWithId", fallbackMethod = "getTodoFallback")
+    @Bulkhead(name = "getTodoWithId", fallbackMethod = "getTodoBulkFallback")
     public Todo getTodo(@PathVariable int id) throws TimeoutException {
+        log.info("getTodo() get called");
         if (id == 111) {
             sleep();
         }
@@ -59,8 +62,23 @@ public class TodoController {
         return todoClient.getTodo(id);
     }
 
+    @GetMapping("/todos/b/{id}")
+    @Bulkhead(name = "getTodoWithId", type = Bulkhead.Type.THREADPOOL, fallbackMethod = "getTodoBulkFallback")
+    public Todo getTodoBulkHead(@PathVariable int id) throws TimeoutException, InterruptedException {
+        log.info("getTodoBulkHead() get called");
+        if (id == 111) {
+            Thread.sleep(5000);
+        }
+        return todoClient.getTodo(id);
+    }
+
     public Todo getTodoFallback(int id, Throwable t) throws TimeoutException {
         Todo dummy = new Todo(0, 0, "not available", false);
+        return dummy;
+    }
+
+    public Todo getTodoBulkFallback(int id) throws TimeoutException {
+        Todo dummy = new Todo(0, 0, "not available in bulk", false);
         return dummy;
     }
 
