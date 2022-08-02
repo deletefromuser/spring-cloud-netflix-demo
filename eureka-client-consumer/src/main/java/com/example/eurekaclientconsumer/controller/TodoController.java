@@ -19,6 +19,7 @@ import com.example.eurekaclientconsumer.model.Todo;
 
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.extern.slf4j.Slf4j;
 
@@ -77,11 +78,21 @@ public class TodoController {
     @GetMapping("/todos/r/{id}")
     @Retry(name = "retryTodoService", fallbackMethod = "getTodoRetryFallback")
     public Todo getTodoRetry(@PathVariable int id) throws TimeoutException {
-        log.info("getTodo() get called");
+        log.info("getTodoRetry() get called");
         if (id == 111) {
             sleep();
         }
         randomlyRunLong();
+        return todoClient.getTodo(id);
+    }
+
+    @GetMapping("/todos/l/{id}")
+    @RateLimiter(name = "ratelimiterTodoService", fallbackMethod = "getTodoLimiterFallback")
+    public Todo getTodoRateLimiter(@PathVariable int id) throws TimeoutException, InterruptedException {
+        log.info("getTodoRateLimiter() get called");
+        if (id == 111) {
+            Thread.sleep(5000);
+        }
         return todoClient.getTodo(id);
     }
 
@@ -97,6 +108,12 @@ public class TodoController {
 
     public Todo getTodoRetryFallback(int id, Throwable t) throws TimeoutException {
         Todo dummy = new Todo(0, 0, "not available in retry", false);
+        return dummy;
+    }
+
+    public Todo getTodoLimiterFallback(int id, Throwable t) throws TimeoutException {
+        log.info("getTodoLimiterFallback ", t);
+        Todo dummy = new Todo(0, 0, "not available in rate limiter", false);
         return dummy;
     }
 
