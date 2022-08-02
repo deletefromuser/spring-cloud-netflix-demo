@@ -50,13 +50,18 @@ public class TodoController {
 
     // use FeignClient
     @GetMapping("/todos/{id}")
-    @CircuitBreaker(name = "getTodoWithId")
+    @CircuitBreaker(name = "getTodoWithId", fallbackMethod = "getTodoFallback")
     public Todo getTodo(@PathVariable int id) throws TimeoutException {
-        if(id == 111) {
+        if (id == 111) {
             sleep();
         }
         randomlyRunLong();
         return todoClient.getTodo(id);
+    }
+
+    public Todo getTodoFallback(int id, Throwable t) throws TimeoutException {
+        Todo dummy = new Todo(0, 0, "not available", false);
+        return dummy;
     }
 
     // use Config Server refresh
