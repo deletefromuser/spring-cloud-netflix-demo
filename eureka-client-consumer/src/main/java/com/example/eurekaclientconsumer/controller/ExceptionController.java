@@ -27,9 +27,8 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      * @since 2018-09-12
      */
     @ExceptionHandler(value = { Exception.class })
-    public @ResponseBody ResponseEntity<Map<String, String>> handleException(HttpServletRequest request) {
-
-        return ResponseEntity.ok(Map.of("mesage", "exception happened"));
+    public @ResponseBody ResponseEntity<Map<String, String>> handleException(HttpServletRequest request, Exception e) {
+        return ResponseEntity.ok(Map.of("message", "exception happened", "exception", e.getClass().getName()));
     }
 
     /**
@@ -44,7 +43,9 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, Object>> handleIOException(HttpServletRequest request, RuntimeException e) {
-        return ResponseEntity.ok(Map.of("status", HttpStatus.NOT_ACCEPTABLE, "message", e.getMessage()));
+        return ResponseEntity
+                .ok(Map.of("status", HttpStatus.NOT_ACCEPTABLE, "message", e.getMessage(), "exception",
+                        e.getClass().getName()));
     }
 
 }
