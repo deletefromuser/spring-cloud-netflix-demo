@@ -19,6 +19,7 @@ import com.example.eurekaclientconsumer.model.Todo;
 
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -52,7 +53,8 @@ public class TodoController {
     // use FeignClient
     @GetMapping("/todos/{id}")
     @CircuitBreaker(name = "getTodoWithId", fallbackMethod = "getTodoFallback")
-    @Bulkhead(name = "getTodoWithId", fallbackMethod = "getTodoBulkFallback")
+    @Bulkhead(name = "getTodoWithIdBulkhead", fallbackMethod = "getTodoBulkFallback")
+    @Retry(name = "retryTodoService", fallbackMethod = "getTodoRetryFallback")
     public Todo getTodo(@PathVariable int id) throws TimeoutException {
         log.info("getTodo() get called");
         if (id == 111) {
@@ -63,7 +65,7 @@ public class TodoController {
     }
 
     @GetMapping("/todos/b/{id}")
-    @Bulkhead(name = "getTodoWithId", type = Bulkhead.Type.THREADPOOL, fallbackMethod = "getTodoBulkFallback")
+    @Bulkhead(name = "getTodoWithIdBulkhead", type = Bulkhead.Type.THREADPOOL, fallbackMethod = "getTodoBulkFallback")
     public Todo getTodoBulkHead(@PathVariable int id) throws TimeoutException, InterruptedException {
         log.info("getTodoBulkHead() get called");
         if (id == 111) {
@@ -72,13 +74,29 @@ public class TodoController {
         return todoClient.getTodo(id);
     }
 
+    @GetMapping("/todos/r/{id}")
+    @Retry(name = "retryTodoService", fallbackMethod = "getTodoRetryFallback")
+    public Todo getTodoRetry(@PathVariable int id) throws TimeoutException {
+        log.info("getTodo() get called");
+        if (id == 111) {
+            sleep();
+        }
+        randomlyRunLong();
+        return todoClient.getTodo(id);
+    }
+
     public Todo getTodoFallback(int id, Throwable t) throws TimeoutException {
         Todo dummy = new Todo(0, 0, "not available", false);
         return dummy;
     }
 
-    public Todo getTodoBulkFallback(int id) throws TimeoutException {
+    public Todo getTodoBulkFallback(int id, Throwable t) throws TimeoutException {
         Todo dummy = new Todo(0, 0, "not available in bulk", false);
+        return dummy;
+    }
+
+    public Todo getTodoRetryFallback(int id, Throwable t) throws TimeoutException {
+        Todo dummy = new Todo(0, 0, "not available in retry", false);
         return dummy;
     }
 

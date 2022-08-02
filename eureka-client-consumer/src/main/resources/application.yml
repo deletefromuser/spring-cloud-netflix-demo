@@ -68,17 +68,25 @@ resilience4j.circuitbreaker:
 # to understand the bulkhead concept, watch https://www.youtube.com/watch?v=Kh3HxWk8YF4
 resilience4j.bulkhead:
   instances:
-    getTodoWithId:
+    getTodoWithIdBulkhead:
       maxWaitDuration: 10ms
       maxConcurrentCalls: 10
 
 resilience4j.thread-pool-bulkhead:
   instances:
-    getTodoWithId:
+    getTodoWithIdBulkhead:
       maxThreadPoolSize: 1
       coreThreadPoolSize: 1
       queueCapacity: 1
       keepAliveDuration: 20ms
+
+resilience4j.retry:
+  instances:
+    retryTodoService:
+      maxAttempts: 5
+      waitDuration: 1000
+      retry-exceptions:
+        - java.util.concurrent.TimeoutException
 
 
 
