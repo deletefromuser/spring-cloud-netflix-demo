@@ -1,4 +1,4 @@
-package com.example.eurekaclientconsumer.intercepter;
+package com.example.eurekaclient.intercepter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
