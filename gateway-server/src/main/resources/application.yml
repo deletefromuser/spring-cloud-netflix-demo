@@ -34,7 +34,7 @@ management:
     enabled-by-default: false
     web:
       exposure:
-        include: info, health, httptrace, configprops, beans, auditevents, gateway
+        include: info, health, httptrace, configprops, beans, auditevents, gateway, refresh
 
   endpoint:
     info:
@@ -52,9 +52,12 @@ management:
       enabled: true
     gateway:
       enabled: true
+    refresh:
+      enabled: true
   trace:
     http:
       enabled: true
+
 
   info:
     env:
