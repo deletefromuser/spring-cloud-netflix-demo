@@ -13,7 +13,7 @@ spring:
           predicates:
             - Path=/todos/**
           filters:
-            - RewritePath=/todos/(?<path>.*), /$\{path}
+            - RewritePath=/todos/(.*), /$1
         - id: todo-consumer
           uri: lb://eureka-client-todo-consumer
           predicates:
