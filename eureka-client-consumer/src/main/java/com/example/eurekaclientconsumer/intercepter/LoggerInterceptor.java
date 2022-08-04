@@ -18,6 +18,15 @@ public class LoggerInterceptor implements HandlerInterceptor {
         log.info("[preHandle][" + request + "]" + "[" + request.getMethod()
                 + "]" + request.getRequestURI());
 
+        log.info("---------    Header start   --------");
+        var headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String name = headerNames.nextElement();
+
+            log.info(name + ": " + StringUtils.join(request.getHeaders(name).asIterator(), ", "));
+        }
+        log.info("---------    Header end   --------");
+
         return true;
     }
 }
