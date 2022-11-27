@@ -8,6 +8,7 @@ spring:
           uri: http://localhost:10880/gogs/todo-config
         #   username: tacocloud
         #   password: s3cr3tP455w0rd
+          default-label: master
 
 server:
   port: 8888

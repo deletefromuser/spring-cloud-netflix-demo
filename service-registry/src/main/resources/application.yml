@@ -1,7 +1,9 @@
 eureka:
   client:
-    registerWithEureka: false
-    fetchRegistry: false
+# https://docs.spring.io/spring-cloud-netflix/docs/current/reference/html/#spring-cloud-eureka-server-standalone-mode
+# Standalone Mode
+#    registerWithEureka: false
+#    fetchRegistry: false
     service-url:
       defaultZone: http://${other.eureka.host}:${other.eureka.port}/eureka
   server:

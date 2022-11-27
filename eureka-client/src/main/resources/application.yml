@@ -4,6 +4,9 @@ spring:
   # https://stackoverflow.com/questions/67507452/no-spring-config-import-property-has-been-defined
   config:
     import: configserver:http://localhost:8888
+  cloud:
+    config:
+      label: eureka-client
 server:
   port: 0
 eureka:
