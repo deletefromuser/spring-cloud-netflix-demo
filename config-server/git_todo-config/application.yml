@@ -5,8 +5,8 @@ eureka:
     service-url:
       defaultZone: 
       # http://eureka1:8761/eureka/
-          http://localhost:8761/eureka,
-          http://localhost:8762/eureka
+          http://cloud1.local:8761/eureka,
+          http://cloud2.local:8762/eureka
 
 todo:
   list:
