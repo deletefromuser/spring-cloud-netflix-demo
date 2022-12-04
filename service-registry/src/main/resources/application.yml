@@ -22,11 +22,11 @@ server:
 
 eureka:
   instance:
-    hostname: localhost
+    hostname: cloud1.local
 
 other:
   eureka:
-    host: localhost
+    host: cloud2.local
     port: 8762
 
 ---
@@ -42,9 +42,9 @@ server:
 
 eureka:
   instance:
-    hostname: localhost
+    hostname: cloud2.local
 
 other:
   eureka:
-    host: localhost
+    host: cloud1.local
     port: 8761
