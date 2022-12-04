@@ -95,5 +95,7 @@ resilience4j.ratelimiter:
       limitRefreshPeriod: 5000
       limitForPeriod: 5
 
-
+cc:
+  asako:
+    url: '{cipher}7fc127543d017234b3e56cfe7ef0aeded3e9a8f8edea99098441d6bcbfcce630' #asako.cc
 

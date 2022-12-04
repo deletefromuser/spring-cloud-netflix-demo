@@ -14,4 +14,6 @@ sudo docker start gogs
 # port 8073
 (cd eureka-client-consumer/ && mvn spring-boot:run)
 # port 8081
+
+gnome-terminal -x bash -c "echo 'helo'; exec bash
 ```

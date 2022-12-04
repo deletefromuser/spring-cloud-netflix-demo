@@ -5,9 +5,9 @@ spring:
     import: configserver:http://localhost:8888
   cloud:
     gateway:
-      # discovery.locator:
-      #   enabled: true
-      #   lowerCaseServiceId: true
+      discovery.locator:
+        enabled: true
+        lowerCaseServiceId: true
       routes:
         - id: todo-service
           uri: lb://eureka-client-todo-service

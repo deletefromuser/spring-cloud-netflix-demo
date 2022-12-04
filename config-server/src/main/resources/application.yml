@@ -15,4 +15,7 @@ server:
 #   servlet:
 #     context-path: /config-server
 
+# it is recommended to set the key as an OS environmental variable and reference the variable in your file. This is for more security
+encrypt:
+  key: secretkey
 
