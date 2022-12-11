@@ -1,4 +1,7 @@
 ```shell
+# /etc/hosts
+# 127.0.0.1 cloud1.local
+# 127.0.0.1 cloud2.local
 sudo docker start test-mysql
 sudo docker start gogs
 # account/password: gogs/gogs
@@ -14,6 +17,4 @@ sudo docker start gogs
 # port 8073
 (cd eureka-client-consumer/ && mvn spring-boot:run)
 # port 8081
-
-gnome-terminal -x bash -c "echo 'helo'; exec bash
 ```
