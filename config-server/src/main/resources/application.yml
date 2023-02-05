@@ -19,3 +19,17 @@ server:
 encrypt:
   key: secretkey
 
+logging:
+  file:
+    name: "logs/config-server-info.log"
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  cloud:
+    config:
+      server:
+        git:
+          uri: http://172.18.0.1:10880/gogs/todo-config

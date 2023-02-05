@@ -1,0 +1,5 @@
+git_todo-config/
+target/
+.mvn/
+.vscode/
+.history/
