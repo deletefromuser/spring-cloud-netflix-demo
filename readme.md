@@ -24,7 +24,10 @@ sudo docker start gogs
 cd config-server/
 sudo DOCKER_BUILDKIT=1 docker build -t spring-cloud-config-server .
 sudo docker run -d --name spring-cloud-config-server_1 -v /home/vu18/.m2:/root/.m2 -p8888:8888 spring-cloud-config-server
-sudo docker run -d --name spring-cloud-config-server_1 -v ${HOME}/.m2:/root/.m2 -v ${PWD}/logs:/logs -p8888:8888 spring-cloud-config-server
+sudo docker run -e TZ=Etc/GMT-8 -d --name spring-cloud-config-server_1 -v ${HOME}/.m2:/root/.m2 -v ${PWD}/logs:/logs -p8888:8888 spring-cloud-config-server
+
+docker stop spring-cloud-config-server_1
+docker rm spring-cloud-config-server_1
 
 docker exec -it spring-cloud-config-server_1 bash
 ```

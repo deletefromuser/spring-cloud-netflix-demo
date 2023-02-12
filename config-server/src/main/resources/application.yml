@@ -23,6 +23,11 @@ logging:
   file:
     name: "logs/config-server-info.log"
 
+management:
+  endpoint:
+    health:
+      show-details: always
+
 ---
 spring:
   config:
