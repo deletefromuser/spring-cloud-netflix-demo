@@ -20,7 +20,7 @@ sudo docker start gogs
 ```
 
 ### Docker
-```
+```bash
 cd config-server/
 sudo DOCKER_BUILDKIT=1 docker build -t spring-cloud-config-server .
 sudo docker run -d --name spring-cloud-config-server_1 -v /home/vu18/.m2:/root/.m2 -p8888:8888 spring-cloud-config-server
@@ -30,5 +30,9 @@ docker stop spring-cloud-config-server_1
 docker rm spring-cloud-config-server_1
 
 docker exec -it spring-cloud-config-server_1 bash
+
+# build docker image with spring boot
+mvn spring-boot:build-image -DskipTests
+sudo docker run -d --name config-server_1 -e "SPRING_PROFILES_ACTIVE=docker"  -p8888:8888 config-server:0.0.1-SNAPSHOT
 ```
 

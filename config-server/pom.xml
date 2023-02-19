@@ -50,6 +50,28 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<env>
+						    <HTTP_PROXY>http://10.0.2.15:1086</HTTP_PROXY>
+						    <HTTPS_PROXY>http://10.0.2.15:1086</HTTPS_PROXY>
+						</env>
+						<bindings>
+						<!--
+							<binding>dependency-mapping=326b904e517b61ac2a0473d1f4d188710e3b8865365041687514aae188d04d01=uri:http://localhost/bellsoft-jre11.0.18+10-linux-amd64.tar.gz</binding>
+							
+							<binding>${project.basedir}/bellsoft-jdk-config:/platform/bindings/bellsoft-jdk-config:ro</binding>  
+							
+							<binding>${project.basedir}/bellsoft-jdk-config:/platform/bindings/bellsoft-jre-config:ro</binding>
+							-->
+						</bindings>
+						<!--
+						<buildpacks>
+							<buildpack>bellsoft-jdk-config</buildpack>
+						</buildpacks>
+						-->
+					</image>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
