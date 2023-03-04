@@ -56,21 +56,11 @@
 						    <HTTP_PROXY>http://10.0.2.15:1086</HTTP_PROXY>
 						    <HTTPS_PROXY>http://10.0.2.15:1086</HTTPS_PROXY>
 						</env>
-						<bindings>
-						<!--
-							<binding>dependency-mapping=326b904e517b61ac2a0473d1f4d188710e3b8865365041687514aae188d04d01=uri:http://localhost/bellsoft-jre11.0.18+10-linux-amd64.tar.gz</binding>
-							
-							<binding>${project.basedir}/bellsoft-jdk-config:/platform/bindings/bellsoft-jdk-config:ro</binding>  
-							
-							<binding>${project.basedir}/bellsoft-jdk-config:/platform/bindings/bellsoft-jre-config:ro</binding>
-							-->
-						</bindings>
-						<!--
-						<buildpacks>
-							<buildpack>bellsoft-jdk-config</buildpack>
-						</buildpacks>
-						-->
+						<pullPolicy>IF_NOT_PRESENT</pullPolicy>
 					</image>
+					 <layers>
+					      <enabled>true</enabled>
+					    </layers>
 				</configuration>
 			</plugin>
 		</plugins>
