@@ -1,2 +1,4 @@
 **/.history/
 logs/
+config-server/gogs/
+config-server/all-databases.sql

@@ -1,0 +1,31 @@
+services:
+#  config-server:
+#    image: config-server:0.0.1-SNAPSHOT
+
+  gogs:
+    image: gogs/gogs:latest
+    ports:
+      - "10880:3000"
+    volumes:
+      - ${PWD}/config-server/gogs:/data
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:latest
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ${PWD}/config-server/all-databases.sql:/docker-entrypoint-initdb.d/start.sql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "password"
+      MYSQL_DATABASE: "database"
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+volumes:
+  mysql_data:
