@@ -1,6 +1,12 @@
 services:
-#  config-server:
-#    image: config-server:0.0.1-SNAPSHOT
+  config-server:
+    image: config-server:0.0.1-SNAPSHOT
+    ports:
+      - "8888:8888"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - gogs
 
   gogs:
     image: gogs/gogs:latest
