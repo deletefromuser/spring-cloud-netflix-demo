@@ -1,5 +1,0 @@
-eureka:
-  client:
-    fetchRegistry: true
-    healthcheck:
-      enabled: true

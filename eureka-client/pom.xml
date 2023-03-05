@@ -72,6 +72,18 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<env>
+						    <HTTP_PROXY>http://10.0.2.15:1086</HTTP_PROXY>
+						    <HTTPS_PROXY>http://10.0.2.15:1086</HTTPS_PROXY>
+						</env>
+						<pullPolicy>IF_NOT_PRESENT</pullPolicy>
+					</image>
+					 <layers>
+					      <enabled>true</enabled>
+					    </layers>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

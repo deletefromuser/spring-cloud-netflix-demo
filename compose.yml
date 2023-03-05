@@ -1,4 +1,56 @@
 services:
+  eureka-client-consumer:
+    image: eureka-client-consumer:0.0.1-SNAPSHOT
+    ports:
+      - "8081:8081"
+    depends_on:
+      eureka-1:
+        condition: service_started
+      eureka-2:
+        condition: service_started
+      gateway-server:
+        condition: service_started
+      config-server:
+        condition: service_started
+
+  gateway-server:
+    image: gateway-server:0.0.1-SNAPSHOT
+    ports:
+      - "8073:8073"
+    depends_on:
+      eureka-1:
+        condition: service_started
+      eureka-2:
+        condition: service_started
+      config-server:
+        condition: service_started
+
+  eureka-client:
+    image: eureka-client:0.0.1-SNAPSHOT
+    #    ports:
+    #  - "8888:8888"
+    depends_on:
+      eureka-1:
+        condition: service_started
+      eureka-2:
+        condition: service_started
+      config-server:
+        condition: service_started
+
+  eureka-1:
+    image: service-registry:0.0.1-SNAPSHOT
+    ports:
+      - "8761:8761"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker-eureka-1
+
+  eureka-2:
+    image: service-registry:0.0.1-SNAPSHOT
+    ports:
+      - "8762:8762"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker-eureka-2
+
   config-server:
     image: config-server:0.0.1-SNAPSHOT
     ports:
@@ -6,7 +58,8 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: docker
     depends_on:
-      - gogs
+      gogs:
+        condition: service_started
 
   gogs:
     image: gogs/gogs:latest
@@ -22,7 +75,7 @@ services:
     image: mysql:latest
     volumes:
       - mysql_data:/var/lib/mysql
-      - ${PWD}/config-server/all-databases.sql:/docker-entrypoint-initdb.d/start.sql
+        #      - ${PWD}/config-server/all-databases.sql:/docker-entrypoint-initdb.d/start.sql
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_USER: "user"

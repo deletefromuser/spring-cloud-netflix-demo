@@ -3,7 +3,7 @@ spring:
     name: eureka-client-todo-service
   # https://stackoverflow.com/questions/67507452/no-spring-config-import-property-has-been-defined
   config:
-    import: configserver:http://localhost:8888
+    import: configserver:http://config-server:8888
   cloud:
     config:
       label: eureka-client

@@ -36,3 +36,17 @@ mvn spring-boot:build-image -DskipTests
 sudo docker run -d --name config-server_1 -e "SPRING_PROFILES_ACTIVE=docker"  -p8888:8888 config-server:0.0.1-SNAPSHOT
 ```
 
+# docker compose
+```
+(cd config-server/ && mvn spring-boot:build-image -DskipTests)
+(cd service-registry/ && mvn spring-boot:build-image -DskipTests)
+(cd gateway-server/ && mvn spring-boot:build-image -DskipTests)
+(cd eureka-client/ && mvn spring-boot:build-image -DskipTests)
+(cd eureka-client-consumer/ && mvn spring-boot:build-image -DskipTests)
+```
+
+
+
+
+
+

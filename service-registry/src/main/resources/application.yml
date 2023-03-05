@@ -48,3 +48,42 @@ other:
   eureka:
     host: cloud1.local
     port: 8761
+---
+spring:
+  config:
+    activate:
+      on-profile: docker-eureka-1
+  application:
+    name: eureka-1
+
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: eureka-1
+
+other:
+  eureka:
+    host: eureka-2
+    port: 8762
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker-eureka-2
+  application:
+      name: eureka-2
+
+server:
+  port: 8762
+
+eureka:
+  instance:
+    hostname: eureka-2
+
+other:
+  eureka:
+    host: eureka-1
+    port: 8761
