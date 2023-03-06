@@ -3,39 +3,67 @@ services:
     image: eureka-client-consumer:0.0.1-SNAPSHOT
     ports:
       - "8081:8081"
+    environment:
+      TZ: "Etc/GMT-8"
+    volumes:
+      - ${PWD}/curl-amd64:/bin/curl
+    healthcheck:
+      test: curl -I http://eureka-client-consumer:8081
+      timeout: 20s
+      retries: 10
     depends_on:
       eureka-1:
         condition: service_started
       eureka-2:
         condition: service_started
-      gateway-server:
-        condition: service_started
+        #  gateway-server:
+        #    condition: service_started
       config-server:
-        condition: service_started
+        condition: service_healthy
 
   gateway-server:
     image: gateway-server:0.0.1-SNAPSHOT
     ports:
       - "8073:8073"
+    environment:
+      TZ: "Etc/GMT-8"
+    volumes:
+      - ${PWD}/curl-amd64:/bin/curl
+    healthcheck:
+      test: curl -I http://gateway-server:8073
+      timeout: 20s
+      retries: 10
     depends_on:
       eureka-1:
-        condition: service_started
+        condition: service_healthy
       eureka-2:
-        condition: service_started
+        condition: service_healthy
       config-server:
-        condition: service_started
+        condition: service_healthy
+      eureka-client:
+        condition: service_healthy
+      eureka-client-consumer:
+        condition: service_healthy
 
   eureka-client:
     image: eureka-client:0.0.1-SNAPSHOT
-    #    ports:
-    #  - "8888:8888"
+    ports:
+      - "8074:8074"
+    environment:
+      TZ: "Etc/GMT-8"
+    volumes:
+      - ${PWD}/curl-amd64:/bin/curl
+    healthcheck:
+      test: curl -I http://eureka-client:8074
+      timeout: 20s
+      retries: 10
     depends_on:
       eureka-1:
-        condition: service_started
+        condition: service_healthy
       eureka-2:
-        condition: service_started
+        condition: service_healthy
       config-server:
-        condition: service_started
+        condition: service_healthy
 
   eureka-1:
     image: service-registry:0.0.1-SNAPSHOT
@@ -43,6 +71,16 @@ services:
       - "8761:8761"
     environment:
       SPRING_PROFILES_ACTIVE: docker-eureka-1
+      TZ: "Etc/GMT-8"
+    volumes:
+      - ${PWD}/curl-amd64:/bin/curl
+    healthcheck:
+      test: curl -I http://eureka-1:8761
+      timeout: 20s
+      retries: 10
+    depends_on:
+      config-server:
+        condition: service_healthy
 
   eureka-2:
     image: service-registry:0.0.1-SNAPSHOT
@@ -50,6 +88,16 @@ services:
       - "8762:8762"
     environment:
       SPRING_PROFILES_ACTIVE: docker-eureka-2
+      TZ: "Etc/GMT-8"
+    volumes:
+      - ${PWD}/curl-amd64:/bin/curl
+    healthcheck:
+      test: curl -I http://eureka-2:8762
+      timeout: 20s
+      retries: 10
+    depends_on:
+      config-server:
+        condition: service_healthy
 
   config-server:
     image: config-server:0.0.1-SNAPSHOT
@@ -57,9 +105,16 @@ services:
       - "8888:8888"
     environment:
       SPRING_PROFILES_ACTIVE: docker
+      TZ: "Etc/GMT-8"
+    volumes:
+      - ${PWD}/curl-amd64:/bin/curl
+    healthcheck:
+      test: curl -I http://config-server:8888
+      timeout: 20s
+      retries: 10
     depends_on:
       gogs:
-        condition: service_started
+        condition: service_healthy
 
   gogs:
     image: gogs/gogs:latest
@@ -67,9 +122,16 @@ services:
       - "10880:3000"
     volumes:
       - ${PWD}/config-server/gogs:/data
+    environment:
+      TZ: "Etc/GMT-8"
     depends_on:
       mysql:
         condition: service_healthy
+    healthcheck:
+      # test: ["CMD", "(nc", "-z", "-w", "3", "localhost:22", "&&", "curl", "-o", "/dev/null", "-sS", "http://localhost:3000/healthcheck)", "||", "exit", "1"]
+      test: (nc -z -w 3 localhost:22 && curl -o /dev/null -sS http://localhost:3000/healthcheck) || exit 1
+      timeout: 20s
+      retries: 10
 
   mysql:
     image: mysql:latest
@@ -77,6 +139,7 @@ services:
       - mysql_data:/var/lib/mysql
         #      - ${PWD}/config-server/all-databases.sql:/docker-entrypoint-initdb.d/start.sql
     environment:
+      TZ: "Etc/GMT-8"
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_USER: "user"
       MYSQL_PASSWORD: "password"

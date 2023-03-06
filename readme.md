@@ -43,6 +43,9 @@ sudo docker run -d --name config-server_1 -e "SPRING_PROFILES_ACTIVE=docker"  -p
 (cd gateway-server/ && mvn spring-boot:build-image -DskipTests)
 (cd eureka-client/ && mvn spring-boot:build-image -DskipTests)
 (cd eureka-client-consumer/ && mvn spring-boot:build-image -DskipTests)
+
+# monitor starting
+watch -n 5 'docker ps -a | grep netflix'
 ```
 
 

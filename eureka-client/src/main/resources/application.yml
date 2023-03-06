@@ -8,7 +8,7 @@ spring:
     config:
       label: eureka-client
 server:
-  port: 0
+  port: 8887
 eureka:
 #   client:
 #     serviceUrl:

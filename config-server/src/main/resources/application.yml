@@ -37,4 +37,4 @@ spring:
     config:
       server:
         git:
-          uri: http://gogs:10880/gogs/todo-config
+          uri: http://gogs:3000/gogs/todo-config
