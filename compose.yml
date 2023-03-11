@@ -45,6 +45,31 @@ services:
       eureka-client-consumer:
         condition: service_healthy
 
+  gateway-server-2:
+    image: gateway-server:0.0.1-SNAPSHOT
+    ports:
+      - "18073:18073"
+    environment:
+      TZ: "Etc/GMT-8"
+      SERVER_PORT: 18073
+    volumes:
+      - ${PWD}/curl-amd64:/bin/curl
+    healthcheck:
+      test: curl -I http://gateway-server-2:18073
+      timeout: 20s
+      retries: 10
+    depends_on:
+      eureka-1:
+        condition: service_healthy
+      eureka-2:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      eureka-client:
+        condition: service_healthy
+      eureka-client-consumer:
+        condition: service_healthy
+
   eureka-client:
     image: eureka-client:0.0.1-SNAPSHOT
     ports:
