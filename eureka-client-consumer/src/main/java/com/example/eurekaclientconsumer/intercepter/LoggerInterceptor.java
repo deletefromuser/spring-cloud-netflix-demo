@@ -5,6 +5,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.example.eurekaclientconsumer.filter.UserContext;
+import com.example.eurekaclientconsumer.filter.UserContextHolder;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,5 +33,12 @@ public class LoggerInterceptor implements HandlerInterceptor {
         log.info("---------    Header end   --------");
 
         return true;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+            ModelAndView modelAndView) throws Exception {
+        response.addHeader(UserContext.CORRELATION_ID, UserContextHolder.getContext().getCorrelationId());
+        HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
     }
 }
