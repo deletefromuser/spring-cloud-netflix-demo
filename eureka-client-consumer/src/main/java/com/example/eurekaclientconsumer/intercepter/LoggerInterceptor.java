@@ -35,10 +35,11 @@ public class LoggerInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-            ModelAndView modelAndView) throws Exception {
-        response.addHeader(UserContext.CORRELATION_ID, UserContextHolder.getContext().getCorrelationId());
-        HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
-    }
+    // not work
+    // @Override
+    // public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+    //         ModelAndView modelAndView) throws Exception {
+    //     response.addHeader(UserContext.CORRELATION_ID, UserContextHolder.getContext().getCorrelationId());
+    //     HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
+    // }
 }
