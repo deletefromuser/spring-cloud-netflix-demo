@@ -29,9 +29,9 @@ class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/todos/112")
-                .hasRole("ADMIN")
+                .hasRole("consumer-admin")
                 .antMatchers("/todos/113")
-                .hasRole("USER")
+                .hasRole("consumer-user")
                 .anyRequest()
                 .permitAll();
         http.oauth2Login()
