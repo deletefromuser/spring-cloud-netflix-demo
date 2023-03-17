@@ -29,7 +29,9 @@ class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/customers*")
+                .antMatchers("/todos/112")
+                .hasRole("ADMIN")
+                .antMatchers("/todos/113")
                 .hasRole("USER")
                 .anyRequest()
                 .permitAll();
