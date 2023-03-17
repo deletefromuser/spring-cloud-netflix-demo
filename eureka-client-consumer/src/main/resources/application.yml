@@ -3,6 +3,21 @@ spring:
     name: eureka-client-todo-consumer
   config:
     import: configserver:http://config-server:8888
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8089/realms/spmia-realm
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8089/realms/spmia-realm
+            user-name-attribute: preferred_username
+        registration:
+          keycloak:
+            scope: openid
+            authorization-grant-type: password
+            client-id: consumer
 # server:
 #   port: 8081
 eureka:
@@ -98,4 +113,3 @@ resilience4j.ratelimiter:
 cc:
   asako:
     url: '{cipher}7fc127543d017234b3e56cfe7ef0aeded3e9a8f8edea99098441d6bcbfcce630' #asako.cc
-
