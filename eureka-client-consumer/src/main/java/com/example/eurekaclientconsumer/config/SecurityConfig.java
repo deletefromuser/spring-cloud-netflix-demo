@@ -32,6 +32,8 @@ class SecurityConfig {
                 .hasRole("consumer-admin")
                 .antMatchers("/todos/113")
                 .hasRole("consumer-user")
+                .antMatchers("/todos/114")
+                .authenticated()
                 .anyRequest()
                 .permitAll();
         http.oauth2Login()

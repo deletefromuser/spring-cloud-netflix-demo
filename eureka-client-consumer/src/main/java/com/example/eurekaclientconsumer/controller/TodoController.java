@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +34,10 @@ public class TodoController {
 
     @GetMapping("/todos")
     public List<Todo> getTodos() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        log.info("----- spring security role start-----");
+        auth.getAuthorities().stream().forEach(item -> log.info(item.getAuthority()));
+        log.info("----- spring security role end-----");
         return service.getTodos();
     }
 
