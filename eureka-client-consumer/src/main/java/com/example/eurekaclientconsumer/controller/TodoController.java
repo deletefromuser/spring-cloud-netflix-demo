@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
+import javax.annotation.security.RolesAllowed;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -63,6 +65,7 @@ public class TodoController {
 
     // use Config Server refresh
     @GetMapping("/todos/length")
+    @RolesAllowed("consumer-admin")
     public Map<String, Integer> configRefresh(@Value("${todo.list.length}") int length) {
         return Map.of("length", length);
     }

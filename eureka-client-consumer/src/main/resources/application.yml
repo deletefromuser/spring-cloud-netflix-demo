@@ -18,6 +18,7 @@ spring:
             scope: openid
             authorization-grant-type: password
             client-id: consumer
+            client-secret: sILBWvz2VS0Ivc6fgnHgktVVAyaN1h6o
 # server:
 #   port: 8081
 eureka:
