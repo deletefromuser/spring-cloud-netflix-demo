@@ -7,11 +7,11 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://keycloak:8080/realms/spmia-realm
+          issuer-uri: http://keycloak:8089/realms/spmia-realm
       client:
         provider:
           keycloak:
-            issuer-uri: http://keycloak:8080/realms/spmia-realm
+            issuer-uri: http://keycloak:8089/realms/spmia-realm
             user-name-attribute: preferred_username
         registration:
           keycloak:

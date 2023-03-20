@@ -50,6 +50,7 @@ class SecurityConfig {
         return jwtAuthenticationConverter;
     }
 
+    // https://stackoverflow.com/questions/69331013/springboot-oauth2-with-keycloak-not-returning-mapped-roles-as-authorities
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
