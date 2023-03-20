@@ -1,4 +1,33 @@
 services:
+  #https://hub.docker.com/r/bitnami/keycloak#configuration
+  postgresql:
+    image: docker.io/bitnami/postgresql:11
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - POSTGRESQL_USERNAME=bn_keycloak
+      - POSTGRESQL_DATABASE=bitnami_keycloak
+    healthcheck:
+      test: pg_isready -U postgres
+      timeout: 20s
+      retries: 10
+    volumes:
+      - 'postgresql_data:/bitnami/postgresql'
+
+  keycloak:
+    image: docker.io/bitnami/keycloak:20
+    environment:
+      - KEYCLOAK_HTTP_PORT=8089
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    ports:
+      - "8089:8089"
+    healthcheck:
+      test: curl -I http://keycloak:8089/realms/spmia-realm
+      timeout: 20s
+      retries: 10
+
   eureka-client-consumer:
     image: eureka-client-consumer:0.0.1-SNAPSHOT
     ports:
@@ -19,6 +48,8 @@ services:
         #  gateway-server:
         #    condition: service_started
       config-server:
+        condition: service_healthy
+      keycloak:
         condition: service_healthy
 
   gateway-server:
@@ -176,3 +207,5 @@ services:
 
 volumes:
   mysql_data:
+  postgresql_data:
+    driver: local

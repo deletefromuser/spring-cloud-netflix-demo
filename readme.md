@@ -19,6 +19,13 @@ sudo docker start gogs
 # port 8081
 ```
 
+
+```bash
+# refresh gateway routes
+curl -s -X POST http://localhost:8073/actuator/refresh
+
+```
+
 ### Docker
 ```bash
 cd config-server/
