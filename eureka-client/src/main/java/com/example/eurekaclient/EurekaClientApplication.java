@@ -49,6 +49,7 @@ public class EurekaClientApplication implements WebMvcConfigurer {
 
 	@Bean
 	public Consumer<String> sink() {
+		log.info("Consumer<String> sink() called");
 		return log::info;
 	}
 }

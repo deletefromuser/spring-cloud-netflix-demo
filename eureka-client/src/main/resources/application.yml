@@ -11,7 +11,7 @@ spring:
       definition: uppercase;date;sink
     stream:
       bindings:
-        uppercase-out-0:
+        uppercase-in-0:
           destination: my-topic
         # uppercase-in-0: my-input
         # my-input:
@@ -20,7 +20,7 @@ spring:
           consumer:
             concurrency: 10
             max-attempts: 3
-        sink-in-0:
+        sink-out-0:
           destination: my-topic
       kafka:
         binder:
