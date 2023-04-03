@@ -7,6 +7,25 @@ spring:
   cloud:
     config:
       label: eureka-client
+    function:
+      definition: uppercase;date;sink
+    stream:
+      bindings:
+        uppercase-out-0:
+          destination: my-topic
+        # uppercase-in-0: my-input
+        # my-input:
+        #   destination: my-topic
+          group: my-group
+          consumer:
+            concurrency: 10
+            max-attempts: 3
+        sink-in-0:
+          destination: my-topic
+      kafka:
+        binder:
+          brokers: kafka:9092
+
 server:
   port: 8887
 eureka:
