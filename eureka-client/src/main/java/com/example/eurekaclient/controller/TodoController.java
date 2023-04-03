@@ -34,7 +34,11 @@ public class TodoController {
     @GetMapping("/todos/{id}")
     public Todo getTodo(@PathVariable int id) {
         return getTodoList().get(id);
+    }
 
+    @GetMapping("/closed")
+    public String closed() {
+        return "closed";
     }
 
     private List<Todo> getTodoList() {
