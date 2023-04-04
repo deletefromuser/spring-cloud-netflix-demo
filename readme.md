@@ -55,6 +55,15 @@ sudo docker run -d --name config-server_1 -e "SPRING_PROFILES_ACTIVE=docker"  -p
 watch -n 5 'docker ps -a | grep netflix'
 ```
 
+# docker kafka
+```
+# view topic
+docker exec -it spring-cloud-netflix-demo-kafka-1 bash
+
+/opt/bitnami/kafka/bin/kafka-topics.sh --list --bootstrap-server kafka:9092
+/opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --describe --topic my-topic
+```
+
 
 
 
