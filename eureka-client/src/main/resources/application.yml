@@ -20,8 +20,8 @@ spring:
           consumer:
             concurrency: 10
             max-attempts: 3
-        sink-out-0:
-          destination: my-topic
+        uppercase-out-0:
+          destination: sink-in-0
       kafka:
         binder:
           brokers: kafka:9092
