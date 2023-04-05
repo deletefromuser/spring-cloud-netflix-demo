@@ -10,6 +10,7 @@ spring:
     function:
       definition: uppercase;date;sink
     stream:
+      pollable-source: blah
       bindings:
         uppercase-in-0:
           destination: my-topic
