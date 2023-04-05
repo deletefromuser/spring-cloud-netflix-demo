@@ -11,6 +11,8 @@ spring:
       definition: uppercase;date;sink
     stream:
       pollable-source: blah
+      poller:
+        max-messages-per-poll: 4
       bindings:
         uppercase-in-0:
           destination: my-topic
