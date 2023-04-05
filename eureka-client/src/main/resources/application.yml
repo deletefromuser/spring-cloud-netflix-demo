@@ -6,7 +6,7 @@ spring:
     import: configserver:http://config-server:8888
   integration:
     poller:
-      cron: */2 * * * * *
+      cron: "*/2 * * * * *"
   cloud:
     config:
       label: eureka-client
