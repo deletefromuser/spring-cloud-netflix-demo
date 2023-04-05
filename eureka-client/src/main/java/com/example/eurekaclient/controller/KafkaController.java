@@ -44,7 +44,7 @@ public class KafkaController {
 
     @Scheduled(fixedDelay = 5_000)
     public void poll() {
-        System.out.println("Polling...");
+        log.info("Polling...");
         this.source.poll(m -> {
             log.info(m.getPayload().toString());
         }, new ParameterizedTypeReference<String>() {
