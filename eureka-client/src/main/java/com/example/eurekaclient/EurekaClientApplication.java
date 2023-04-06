@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @SpringBootApplication
 @Slf4j
+@EnableScheduling
 public class EurekaClientApplication implements WebMvcConfigurer {
 
 	public static void main(String[] args) {
@@ -52,4 +54,25 @@ public class EurekaClientApplication implements WebMvcConfigurer {
 		log.info("Consumer<String> sink() called");
 		return log::info;
 	}
+
+	// @Bean
+	// public ApplicationRunner poller(PollableMessageSource destIn, MessageChannel destOut) {
+	// 	return args -> {
+	// 		while (someCondition()) {
+	// 			try {
+	// 				if (!destIn.poll(m -> {
+	// 					String newPayload = ((String) m.getPayload()).toUpperCase();
+	// 					destOut.send(new GenericMessage<>(newPayload));
+	// 				})) {
+	// 					Thread.sleep(1000);
+	// 				}
+	// 			} catch (Exception e) {
+	// 				// handle failure
+	// 			}
+	// 		}
+	// 	};
+	// }
+
+	
+
 }
