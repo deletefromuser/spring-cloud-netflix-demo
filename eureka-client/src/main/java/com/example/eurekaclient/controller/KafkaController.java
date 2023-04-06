@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.eurekaclient.model.Todo;
+
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -47,7 +49,7 @@ public class KafkaController {
         log.info("Polling...");
         this.source.poll(m -> {
             log.info(m.getPayload().toString());
-        }, new ParameterizedTypeReference<String>() {
+        }, new ParameterizedTypeReference<Todo>() {
         });
     }
 }
