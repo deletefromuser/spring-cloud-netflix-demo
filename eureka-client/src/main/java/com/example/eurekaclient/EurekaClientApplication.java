@@ -5,9 +5,13 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.stream.binder.PollableMessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.support.GenericMessage;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -55,24 +59,23 @@ public class EurekaClientApplication implements WebMvcConfigurer {
 		return log::info;
 	}
 
-	// @Bean
-	// public ApplicationRunner poller(PollableMessageSource destIn, MessageChannel destOut) {
-	// 	return args -> {
-	// 		while (someCondition()) {
-	// 			try {
-	// 				if (!destIn.poll(m -> {
-	// 					String newPayload = ((String) m.getPayload()).toUpperCase();
-	// 					destOut.send(new GenericMessage<>(newPayload));
-	// 				})) {
-	// 					Thread.sleep(1000);
-	// 				}
-	// 			} catch (Exception e) {
-	// 				// handle failure
-	// 			}
-	// 		}
-	// 	};
-	// }
-
-	
+	@Bean
+	public ApplicationRunner poller(PollableMessageSource destIn, MessageChannel destOut) {
+		return args -> {
+			while (true) {
+				try {
+					if (!destIn.poll(m -> {
+						String newPayload = ((String) m.getPayload()).toUpperCase();
+						log.info(newPayload);
+						destOut.send(new GenericMessage<>(newPayload));
+					})) {
+						Thread.sleep(15000);
+					}
+				} catch (Exception e) {
+					log.info("", e);
+				}
+			}
+		};
+	}
 
 }
