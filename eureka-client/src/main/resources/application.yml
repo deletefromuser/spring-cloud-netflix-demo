@@ -13,7 +13,7 @@ spring:
     function:
       definition: uppercase;date;sink
     stream:
-      pollable-source: blah
+      pollable-source: blah;my-todo
       poller:
         max-messages-per-poll: 4
       bindings:

@@ -6,8 +6,10 @@ import java.util.function.Supplier;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.cloud.stream.binder.PollableMessageSource;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.messaging.MessageChannel;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,13 +29,22 @@ public class KafkaController {
     @Autowired
     private Supplier<LocalDateTime> date;
 
+    @Autowired
+    @Qualifier("uppercase-out-0")
+    MessageChannel uppercaseOut;
+
     @RequestMapping("/createKafkaMessage")
     public String createKafkaMessage(@RequestParam(required = false) String msg) {
         uppercase.apply(StringUtils.defaultIfBlank(msg, "createKafkaMessage"));
         date.get();
+        uppercaseOut.send(org.springframework.integration.support.MessageBuilder
+                .withPayload(msg).build());
 
         return "Hello World!";
     }
+
+    // @Input
+    // PollableMessageSource orders();
 
     @RequestMapping("/receiveKafkaMessage")
     public String receiveKafkaMessage() {
