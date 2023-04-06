@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.annotation.Input;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.stream.binder.PollableMessageSource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.messaging.MessageChannel;
@@ -31,7 +31,7 @@ public class KafkaController {
 
     @Autowired
     @Qualifier("uppercase-out-0")
-    MessageChannel uppercaseOut;
+    private MessageChannel uppercaseOut;
 
     @RequestMapping("/createKafkaMessage")
     public String createKafkaMessage(@RequestParam(required = false) String msg) {
