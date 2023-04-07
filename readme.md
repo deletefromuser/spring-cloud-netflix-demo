@@ -53,17 +53,40 @@ sudo docker run -d --name config-server_1 -e "SPRING_PROFILES_ACTIVE=docker"  -p
 
 # monitor starting
 watch -n 5 'docker ps -a | grep netflix'
+
+# restart eureka-client only
+git pull && (cd eureka-client/ && mvn spring-boot:build-image -DskipTests) && docker stop spring-cloud-netflix-demo-eureka-client-1 && docker rm spring-cloud-netflix-demo-eureka-client-1 && docker compose up -d --no-recreate
 ```
 
 # docker kafka
 ```
+# https://hevodata.com/learn/kafka-cli-commands/#s25
 # view topic
 docker exec -it spring-cloud-netflix-demo-kafka-1 bash
 
 /opt/bitnami/kafka/bin/kafka-topics.sh --list --bootstrap-server kafka:9092
 /opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --describe --topic my-topic
+
+/opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --delete --topic '.*'
+
+/opt/bitnami/kafka/bin/kafka-console-producer.sh --bootstrap-server kafka:9092 --topic my-topic
+/opt/bitnami/kafka/bin/kafka-console-producer.sh --bootstrap-server kafka:9092 --topic blah-in-0
+{"title":"haha"}
+
+/opt/bitnami/kafka/bin/kafka-console-consumer.sh --from-beginning --bootstrap-server kafka:9092 --topic my-topic
 ```
 
+# edit docker instance file
+```
+docker exec -u 0 -it spring-cloud-netflix-demo-eureka-client-1 bash
+
+apt-get update
+apt-get install vim
+
+vim /workspace/BOOT-INF/classes/application.yml
+
+docker restart spring-cloud-netflix-demo-eureka-client-1
+```
 
 
 
