@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -58,7 +59,7 @@ public class EurekaClientApplication implements WebMvcConfigurer {
 	}
 
 	@Bean
-	public ApplicationRunner poller(PollableMessageSource destIn) {
+	public ApplicationRunner poller(@Qualifier("my-todo-in-0") PollableMessageSource destIn) {
 		return args -> {
 			while (true) {
 				try {
