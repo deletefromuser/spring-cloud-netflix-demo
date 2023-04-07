@@ -67,9 +67,13 @@ public class KafkaController {
                     .withPayload(msg).build());
         }
 
-        producer.createProducer().send(new ProducerRecord<>("uppercase-out-0", "value"));
+        try {
+            producer.createProducer().send(new ProducerRecord<>("uppercase-out-0", "value"));
+        } catch (Throwable ex) {
+            log.error("", ex);
+        }
 
-        // log.info(kafkaMessageChannelBinder.getBindings() + "");
+        log.info("createKafkaMessage");
 
         return "Hello World!";
     }
