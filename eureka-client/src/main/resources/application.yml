@@ -12,6 +12,7 @@ spring:
       label: eureka-client
     function:
       definition: uppercase;date;sink
+      # autodetect: false
     stream:
       input-bindings: fooin;barin
       output-bindings: fooout;barout

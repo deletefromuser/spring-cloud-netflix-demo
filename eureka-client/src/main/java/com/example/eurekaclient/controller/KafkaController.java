@@ -58,7 +58,7 @@ public class KafkaController {
             channel.send(org.springframework.integration.support.MessageBuilder
                     .withPayload(msg).build());
         }
-        if(uppercaseOut3 != null) {
+        if (uppercaseOut3 != null) {
             log.info("channel.send");
             uppercaseOut3.send(org.springframework.integration.support.MessageBuilder
                     .withPayload(msg).build());
@@ -79,7 +79,11 @@ public class KafkaController {
     }
 
     @Autowired
+    @Qualifier("blah-in-0")
     private PollableMessageSource source;
+    @Autowired
+    @Qualifier("my-todo-in-0")
+    private PollableMessageSource source2;
 
     @Scheduled(fixedDelay = 5_000)
     public void poll() {
@@ -88,5 +92,13 @@ public class KafkaController {
             log.info(m.getPayload().toString());
         }, new ParameterizedTypeReference<Todo>() {
         });
+
+        try {
+            source2.poll(m -> {
+                log.info(m.getPayload().toString());
+            });
+        } catch (Throwable ex) {
+            log.error("", ex);
+        }
     }
 }
