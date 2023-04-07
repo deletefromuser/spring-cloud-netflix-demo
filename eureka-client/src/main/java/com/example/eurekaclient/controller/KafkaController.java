@@ -68,7 +68,7 @@ public class KafkaController {
         }
 
         try {
-            producer.createProducer().send(new ProducerRecord<>("uppercase-out-0", msg));
+            producer.createProducer().send(new ProducerRecord<>("sink-in-0", msg));
         } catch (Throwable ex) {
             log.error("", ex);
         }
