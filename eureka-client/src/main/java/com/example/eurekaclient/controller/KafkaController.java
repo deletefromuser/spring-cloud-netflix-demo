@@ -6,10 +6,9 @@ import java.util.function.Supplier;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.stream.binder.PollableMessageSource;
+import org.springframework.cloud.stream.binder.kafka.KafkaMessageChannelBinder;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.messaging.MessageChannel;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,16 +31,21 @@ public class KafkaController {
     // @Autowired
     // @Qualifier("uppercase-out-0")
     // private MessageChannel uppercaseOut;
+    // @Autowired
+    // @Qualifier("barin")
+    // private MessageChannel uppercaseOut;
+
     @Autowired
-    @Qualifier("barin")
-    private MessageChannel uppercaseOut;
+    KafkaMessageChannelBinder kafkaMessageChannelBinder;
 
     @RequestMapping("/createKafkaMessage")
     public String createKafkaMessage(@RequestParam(required = false) String msg) {
         uppercase.apply(StringUtils.defaultIfBlank(msg, "createKafkaMessage"));
         date.get();
-        uppercaseOut.send(org.springframework.integration.support.MessageBuilder
-                .withPayload(msg).build());
+        // uppercaseOut.send(org.springframework.integration.support.MessageBuilder
+        // .withPayload(msg).build());
+
+        log.info(kafkaMessageChannelBinder.getBindings() + "");
 
         return "Hello World!";
     }
