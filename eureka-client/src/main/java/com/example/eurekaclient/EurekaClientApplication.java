@@ -42,20 +42,21 @@ public class EurekaClientApplication implements WebMvcConfigurer {
 	@Bean
 	public Function<String, String> uppercase() {
 		return value -> {
-			log.info("Received: " + value);
+			log.info("Function<String, String> uppercase() - Received: " + value);
 			return value.toUpperCase();
 		};
 	}
 
-	@Bean
-	public Supplier<LocalDateTime> date() {
-		return () -> LocalDateTime.now();
-	}
+	// @Bean
+	// public Supplier<LocalDateTime> date() {
+	// return () -> LocalDateTime.now();
+	// }
 
 	@Bean
 	public Consumer<String> sink() {
-		log.info("Consumer<String> sink() called");
-		return log::info;
+		return value -> {
+			log.info("Consumer<String> sink() - Received: " + value);
+		};
 	}
 
 	@Bean
