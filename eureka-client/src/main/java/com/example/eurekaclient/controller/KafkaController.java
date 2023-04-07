@@ -13,6 +13,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.eurekaclient.model.Todo;
 
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
 
 @RestController
 @Slf4j
@@ -85,6 +87,16 @@ public class KafkaController {
     public String receiveKafkaMessage() {
 
         return "Hello World!";
+    }
+
+    @Autowired
+    Supplier<Flux<String>> stringSupplier;
+
+    @RequestMapping("/pollable")
+    // @Qualifier("stringSupplier")
+    public String pollableSupplier() {
+        stringSupplier.get();
+        return "pollableSupplier execute sucessfully";
     }
 
     @Autowired

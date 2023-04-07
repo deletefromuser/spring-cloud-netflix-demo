@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.function.context.PollableBean;
 import org.springframework.cloud.stream.binder.PollableMessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.example.eurekaclient.intercepter.LoggerInterceptor;
 
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
 
 @SpringBootApplication
 @Slf4j
@@ -47,16 +49,21 @@ public class EurekaClientApplication implements WebMvcConfigurer {
 		};
 	}
 
-	// @Bean
-	// public Supplier<LocalDateTime> date() {
-	// return () -> LocalDateTime.now();
-	// }
+	@Bean
+	public Supplier<LocalDateTime> date() {
+		return () -> LocalDateTime.now();
+	}
 
 	@Bean
 	public Consumer<String> sink() {
 		return value -> {
 			log.info("Consumer<String> sink() - Received: " + value);
 		};
+	}
+
+	@PollableBean
+	public Supplier<Flux<String>> stringSupplier() {
+		return () -> Flux.just("hello", "oh", "bye");
 	}
 
 	@Bean
