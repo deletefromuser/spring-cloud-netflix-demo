@@ -1,16 +1,16 @@
 package com.example.eurekaclient.controller;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.stream.binder.PollableMessageSource;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,10 +47,13 @@ public class KafkaController {
     // @Autowired
     // KafkaMessageChannelBinder kafkaMessageChannelBinder;
 
+    @Autowired
+    private ProducerFactory<String, String> producer;
+
     @RequestMapping("/createKafkaMessage")
     public String createKafkaMessage(@RequestParam(required = false) String msg) {
-        uppercase.apply(StringUtils.defaultIfBlank(msg, "createKafkaMessage"));
-        date.get();
+        // uppercase.apply(StringUtils.defaultIfBlank(msg, "createKafkaMessage"));
+        // date.get();
 
         MessageChannel channel = (MessageChannel) ObjectUtils.defaultIfNull(uppercaseOut, uppercaseOut2);
         if (channel != null) {
@@ -59,10 +62,13 @@ public class KafkaController {
                     .withPayload(msg).build());
         }
         if (uppercaseOut3 != null) {
-            log.info("channel.send");
+            log.info("uppercaseOut3.send");
             uppercaseOut3.send(org.springframework.integration.support.MessageBuilder
                     .withPayload(msg).build());
         }
+
+
+        producer.createProducer().send(new ProducerRecord<>("uppercase-out-0", "key", "value"));
 
         // log.info(kafkaMessageChannelBinder.getBindings() + "");
 
@@ -88,13 +94,13 @@ public class KafkaController {
     @Scheduled(fixedDelay = 5_000)
     public void poll() {
         log.info("Polling...");
-        this.source.poll(m -> {
+        this.source2.poll(m -> {
             log.info(m.getPayload().toString());
         }, new ParameterizedTypeReference<Todo>() {
         });
 
         try {
-            source2.poll(m -> {
+            source.poll(m -> {
                 log.info(m.getPayload().toString());
             });
         } catch (Throwable ex) {
