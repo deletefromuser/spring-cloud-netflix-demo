@@ -29,8 +29,11 @@ public class KafkaController {
     @Autowired
     private Supplier<LocalDateTime> date;
 
+    // @Autowired
+    // @Qualifier("uppercase-out-0")
+    // private MessageChannel uppercaseOut;
     @Autowired
-    @Qualifier("uppercase-out-0")
+    @Qualifier("barin")
     private MessageChannel uppercaseOut;
 
     @RequestMapping("/createKafkaMessage")
