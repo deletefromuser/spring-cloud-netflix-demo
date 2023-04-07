@@ -38,8 +38,12 @@ spring:
           brokers: kafka:9092
 
   kafka:
-   bootstrap-servers:
-     - kafka:9092
+    bootstrap-servers:
+      - kafka:9092
+    producer:
+      properties:
+        # "[value.serializer]": org.springframework.kafka.support.serializer.JsonSerializer
+        "[value.serializer]": org.springframework.kafka.support.serializer.StringOrBytesSerializer
 
 server:
   port: 8887
