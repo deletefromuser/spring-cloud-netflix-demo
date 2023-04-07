@@ -37,6 +37,10 @@ spring:
         binder:
           brokers: kafka:9092
 
+  kafka:
+   bootstrap-servers:
+     - kafka:9092
+
 server:
   port: 8887
 eureka:
