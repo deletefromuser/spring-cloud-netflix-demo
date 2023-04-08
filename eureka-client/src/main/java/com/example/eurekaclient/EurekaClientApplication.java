@@ -51,7 +51,10 @@ public class EurekaClientApplication implements WebMvcConfigurer {
 
 	@Bean
 	public Supplier<LocalDateTime> date() {
-		return () -> LocalDateTime.now();
+		return () -> {
+			log.info("Supplier<LocalDateTime> date -> generate message");
+			return LocalDateTime.now();
+		};
 	}
 
 	@Bean
@@ -80,12 +83,13 @@ public class EurekaClientApplication implements WebMvcConfigurer {
 				try {
 					if (!destIn.poll(m -> {
 						String newPayload = ((String) m.getPayload()).toUpperCase();
-						log.info(newPayload);
+						log.info("ApplicationRunner poller(@Qualifier(\"my-todo-in-0\") PollableMessageSource destIn)"
+								+ newPayload);
 					})) {
 						Thread.sleep(15000);
 					}
 				} catch (Exception e) {
-					log.info("", e);
+					log.info("ApplicationRunner poller error", e);
 				}
 			}
 		};
