@@ -34,6 +34,9 @@ spring:
           destination: sink-in-0
         getDate-in-0:
           destination: date-out-0
+          consumer:
+            concurrency: 10
+            use-native-decoding: true
       kafka:
         binder:
           brokers: kafka:9092
