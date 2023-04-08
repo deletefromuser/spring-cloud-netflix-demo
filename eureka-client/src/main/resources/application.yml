@@ -51,6 +51,7 @@ spring:
     consumer:
       properties:
         "[value.deserializer]": org.springframework.kafka.support.serializer.JsonDeserializer
+        "[spring.json.trusted.packages]": "*"
 
 server:
   port: 8887
