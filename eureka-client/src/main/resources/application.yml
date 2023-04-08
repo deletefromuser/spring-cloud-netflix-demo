@@ -48,6 +48,9 @@ spring:
       properties:
         "[value.serializer]": org.springframework.kafka.support.serializer.JsonSerializer
         # "[value.serializer]": org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      properties:
+        "[value.deserializer]": org.springframework.kafka.support.serializer.JsonDeserializer
 
 server:
   port: 8887
