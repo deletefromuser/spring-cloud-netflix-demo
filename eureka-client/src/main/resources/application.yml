@@ -6,7 +6,7 @@ spring:
     import: configserver:http://config-server:8888
   integration:
     poller:
-      cron: "*/25 * * * * *"
+      cron: "0/25 * * * * *"
       max-messages-per-poll: 3
   cloud:
     config:
