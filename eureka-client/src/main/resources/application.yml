@@ -7,6 +7,7 @@ spring:
   integration:
     poller:
       cron: "*/25 * * * * *"
+      max-messages-per-poll: 3
   cloud:
     config:
       label: eureka-client
@@ -17,8 +18,6 @@ spring:
       input-bindings: fooin;barin
       output-bindings: fooout;barout
       pollable-source: blah;my-todo
-      poller:
-        max-messages-per-poll: 4
       bindings:
         uppercase-in-0:
           destination: my-topic
@@ -33,6 +32,8 @@ spring:
           destination: sink-in-0
         blah-out-0:
           destination: sink-in-0
+        getDate-in-0:
+          destination: date-out-0
       kafka:
         binder:
           brokers: kafka:9092

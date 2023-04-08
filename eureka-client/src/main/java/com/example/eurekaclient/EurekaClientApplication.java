@@ -61,6 +61,13 @@ public class EurekaClientApplication implements WebMvcConfigurer {
 		};
 	}
 
+	@Bean
+	public Consumer<String> getDate() {
+		return value -> {
+			log.info("Consumer<String> getDate() - Received: " + value);
+		};
+	}
+
 	@PollableBean
 	public Supplier<Flux<String>> stringSupplier() {
 		return () -> Flux.just("hello", "oh", "bye");
