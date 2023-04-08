@@ -89,3 +89,8 @@ management:
       enabled: true
     os:
       enabled: true
+
+logging:
+  level:
+    root: info
+    "[com.example.eurekaclient.intercepter.LoggerInterceptor]": info

@@ -16,16 +16,16 @@ public class LoggerInterceptor implements HandlerInterceptor {
             HttpServletResponse response,
             Object handler) throws Exception {
 
-        log.info("[preHandle][" + request + "]" + "[" + request.getMethod()
+        log.info("[preHandle]" + "[" + request.getMethod()
                 + "]" + request.getRequestURI());
-        log.info("---------    Header start   --------");
+        log.debug("---------    Header start   --------");
         var headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String name = headerNames.nextElement();
 
-            log.info(name + ": " + StringUtils.join(request.getHeaders(name).asIterator(), ", "));
+            log.debug(name + ": " + StringUtils.join(request.getHeaders(name).asIterator(), ", "));
         }
-        log.info("---------    Header end   --------");
+        log.debug("---------    Header end   --------");
 
         return true;
     }
