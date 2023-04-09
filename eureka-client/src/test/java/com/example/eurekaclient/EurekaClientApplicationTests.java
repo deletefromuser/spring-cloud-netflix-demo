@@ -26,7 +26,7 @@ class EurekaClientApplicationTests {
 
 	@Test
 	public void testMyMethod() {
-		log.info(new String(Base64.getDecoder().decode("IjIwMjMtMDQtMDlUMTM6NDk6MzQuNTA2MDg5Ig=="),
+		log.info(new String(Base64.getDecoder().decode("IjIwMjMtMDQtMDlUMTQ6MDM6MjUuMDM5ODU4Ig=="),
 				StandardCharsets.UTF_8));
 	}
 }
