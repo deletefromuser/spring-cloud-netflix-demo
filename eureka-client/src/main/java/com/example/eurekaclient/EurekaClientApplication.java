@@ -1,6 +1,9 @@
 package com.example.eurekaclient;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -67,7 +70,8 @@ public class EurekaClientApplication implements WebMvcConfigurer {
 	@Bean
 	public Consumer<String> getDate() {
 		return value -> {
-			log.info("Consumer<String> getDate() - Received: " + value);
+			log.info("Consumer<String> getDate() - Received: "
+					+ new String(Base64.getDecoder().decode(value), StandardCharsets.UTF_8));
 		};
 	}
 
