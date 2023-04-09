@@ -69,10 +69,10 @@ public class EurekaClientApplication implements WebMvcConfigurer {
 	@Bean
 	public Consumer<String> getDate() {
 		return value -> {
-			log.info("Consumer<String> getDate() - Received: "
-					+ new String(Base64.getDecoder().decode(value), StandardCharsets.UTF_8));
 			// log.info("Consumer<String> getDate() - Received: "
-			// + value);
+			// 		+ new String(Base64.getDecoder().decode(value), StandardCharsets.UTF_8));
+			log.info("Consumer<String> getDate() - Received: "
+			+ value);
 		};
 	}
 
