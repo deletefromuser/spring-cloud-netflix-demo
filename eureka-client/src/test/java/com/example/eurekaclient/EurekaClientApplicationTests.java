@@ -1,11 +1,15 @@
 package com.example.eurekaclient;
 
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cloud.stream.test.binder.TestSupportBinderConfiguration;
-import org.springframework.context.annotation.Import;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
-@SpringBootTest
-@Import({ TestSupportBinderConfiguration.class })
+import org.junit.jupiter.api.Test;
+
+import lombok.extern.slf4j.Slf4j;
+
+// @SpringBootTest
+// @Import({ TestSupportBinderConfiguration.class })
+@Slf4j
 class EurekaClientApplicationTests {
 
 	// @Autowired
@@ -16,8 +20,13 @@ class EurekaClientApplicationTests {
 
 	// @Test
 	// void contextLoads() {
-	// 	input.send(new GenericMessage<byte[]>("hello".getBytes()));
-	// 	assertThat(output.receive().getPayload()).isEqualTo("HELLO".getBytes());
+	// input.send(new GenericMessage<byte[]>("hello".getBytes()));
+	// assertThat(output.receive().getPayload()).isEqualTo("HELLO".getBytes());
 	// }
 
+	@Test
+	public void testMyMethod() {
+		log.info(new String(Base64.getDecoder().decode("IjIwMjMtMDQtMDlUMTM6NDk6MzQuNTA2MDg5Ig=="),
+				StandardCharsets.UTF_8));
+	}
 }
