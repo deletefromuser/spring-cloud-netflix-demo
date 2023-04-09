@@ -1,6 +1,7 @@
 package com.example.eurekaclient.controller;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -13,7 +14,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -70,6 +70,8 @@ public class KafkaController {
         }
 
         try {
+            producer.updateConfigs(Map.of("key.serializer", "org.apache.kafka.common.serialization.StringSerializer",
+                    "value.serializer", "org.apache.kafka.common.serialization.StringSerializer"));
             producer.createProducer().send(new ProducerRecord<>("sink-in-0", msg));
         } catch (Throwable ex) {
             log.error("", ex);
