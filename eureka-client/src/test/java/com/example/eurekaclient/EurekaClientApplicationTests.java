@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,7 +27,9 @@ class EurekaClientApplicationTests {
 
 	@Test
 	public void testMyMethod() {
-		log.info(new String(Base64.getDecoder().decode("IjIwMjMtMDQtMDlUMTQ6MDM6MjUuMDM5ODU4Ig=="),
+		String msg = "IjIwMjMtMDQtMDlUMTQ6MDM6MjUuMDM5ODU4Ig==";
+		log.info(new String(Base64.getDecoder().decode(msg),
 				StandardCharsets.UTF_8));
+		log.info(new JsonDeserializer<String>(String.class).deserialize("date-out-0", Base64.getDecoder().decode(msg)).toString());
 	}
 }
