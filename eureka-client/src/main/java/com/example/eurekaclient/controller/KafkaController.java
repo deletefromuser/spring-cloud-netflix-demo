@@ -70,8 +70,8 @@ public class KafkaController {
         }
 
         try {
-            // producer.updateConfigs(Map.of("key.serializer", "org.apache.kafka.common.serialization.StringSerializer",
-            //         "value.serializer", "org.apache.kafka.common.serialization.StringSerializer"));
+            producer.updateConfigs(Map.of("key.serializer", "org.apache.kafka.common.serialization.StringSerializer",
+                    "value.serializer", "org.apache.kafka.common.serialization.StringSerializer"));
             producer.createProducer().send(new ProducerRecord<>("sink-in-0", msg));
         } catch (Throwable ex) {
             log.error("", ex);
