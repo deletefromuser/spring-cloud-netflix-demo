@@ -4,10 +4,10 @@ spring:
   # https://stackoverflow.com/questions/67507452/no-spring-config-import-property-has-been-defined
   config:
     import: configserver:http://config-server:8888
-  integration:
-    poller:
-      cron: "0/25 * * * * *"
-      max-messages-per-poll: 3
+  # integration:
+  #   poller:
+  #     cron: "0/25 * * * * *"
+  #     max-messages-per-poll: 3
   cloud:
     config:
       label: eureka-client
@@ -37,6 +37,11 @@ spring:
           consumer:
             concurrency: 10
             # use-native-decoding: true
+        date-out-0:
+          producer:
+            poller:
+              fixed-delay: 17000
+              max-messages-per-poll: 2
       kafka:
         binder:
           brokers: kafka:9092
