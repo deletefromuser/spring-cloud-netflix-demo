@@ -110,15 +110,16 @@ public class KafkaController {
 
     @Scheduled(fixedDelay = 5_000)
     public void poll() {
-        log.info("Polling...");
-        this.source2.poll(m -> {
-            log.info(m.getPayload().toString());
-        }, new ParameterizedTypeReference<Todo>() {
-        });
-
         try {
+            log.info("Polling topic [my-todo-in-0]...");
+            this.source2.poll(m -> {
+                log.info("---" + m.getPayload().toString() + "---");
+            }, new ParameterizedTypeReference<Todo>() {
+            });
+
+            log.info("Polling topic [blah-in-0]...");
             source.poll(m -> {
-                log.info(m.getPayload().toString());
+                log.info("***" + m.getPayload().toString() + "***");
             });
         } catch (Throwable ex) {
             log.error("", ex);
