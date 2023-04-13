@@ -40,7 +40,7 @@ spring:
         date-out-0:
           producer:
             poller:
-              fixed-delay: 5000
+              fixed-delay: 17s
               # max-messages-per-poll: 2
       kafka:
         binder:
