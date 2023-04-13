@@ -10,6 +10,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.stream.binder.PollableMessageSource;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.messaging.MessageChannel;
@@ -77,9 +78,19 @@ public class KafkaController {
             log.error("", ex);
         }
 
-        log.info("createKafkaMessage");
+        log.info("createKafkaMessage called");
 
         return "Hello World!";
+    }
+
+    @Autowired
+    private StreamBridge streamBridge;
+
+    @RequestMapping("/createKafkaMessage2")
+    public String createKafkaMessage2(@RequestParam(required = false) String msg) {
+        log.info("createKafkaMessage2 called");
+        streamBridge.send("toStream-out-0", msg);
+        return "createKafkaMessage2!";
     }
 
     // @Input
@@ -108,6 +119,7 @@ public class KafkaController {
     @Qualifier("my-todo-in-0")
     private PollableMessageSource source2;
 
+    // https://stackoverflow.com/questions/38842507/whats-the-difference-between-fixed-rate-and-fixed-delay-in-spring-scheduled-ann
     @Scheduled(fixedRate = 15_000)
     public void poll() {
         try {
