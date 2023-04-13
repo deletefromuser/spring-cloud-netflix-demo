@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.stream.binder.PollableMessageSource;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.integration.StaticMessageHeaderAccessor;
+import org.springframework.integration.acks.AcknowledgmentCallback.Status;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -128,6 +130,7 @@ public class KafkaController {
             log.info("Polling topic [my-todo-in-0]...");
             this.source2.poll(m -> {
                 log.info("---" + m.getPayload().toString() + "---");
+                // StaticMessageHeaderAccessor.getAcknowledgmentCallback(m).acknowledge(Status.REQUEUE);
             }, new ParameterizedTypeReference<Todo>() {
             });
 

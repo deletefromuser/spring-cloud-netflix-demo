@@ -34,6 +34,7 @@ spring:
           destination: sink-in-0
         test-out-0:
           destination: test
+          binder: kafka
         getDate-in-0:
           destination: date-out-0
           consumer:
