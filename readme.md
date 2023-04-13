@@ -56,6 +56,9 @@ watch -n 5 'docker ps -a | grep netflix'
 
 # restart eureka-client only
 git pull && (cd eureka-client/ && mvn spring-boot:build-image -DskipTests) && docker stop spring-cloud-netflix-demo-eureka-client-1 && docker rm spring-cloud-netflix-demo-eureka-client-1 && docker compose up -d --no-recreate
+
+docker logs -f --tail 1000 spring-cloud-netflix-demo-eureka-client-1
+
 ```
 
 # docker kafka
@@ -88,7 +91,13 @@ vim /workspace/BOOT-INF/classes/application.yml
 docker restart spring-cloud-netflix-demo-eureka-client-1
 ```
 
+# find docker log 
+```
+du -chs /var/lib/docker/containers/*/*json.log
 
+# clear log file
+sudo sh -c 'truncate -s 0 /var/lib/docker/containers/*/*-json.log'
+```
 
 
 
