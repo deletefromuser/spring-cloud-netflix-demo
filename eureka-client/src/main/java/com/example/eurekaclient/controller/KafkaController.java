@@ -6,6 +6,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -87,9 +88,10 @@ public class KafkaController {
     private StreamBridge streamBridge;
 
     @RequestMapping("/createKafkaMessage2")
-    public String createKafkaMessage2(@RequestParam(required = false) String msg) {
+    public String createKafkaMessage2(@RequestParam(required = false) String msg,
+            @RequestParam(required = false) String topic) {
         log.info("createKafkaMessage2 called");
-        streamBridge.send("toStream-out-0", msg);
+        streamBridge.send(StringUtils.defaultIfBlank(topic, "toStream-out-0"), msg);
         return "createKafkaMessage2!";
     }
 

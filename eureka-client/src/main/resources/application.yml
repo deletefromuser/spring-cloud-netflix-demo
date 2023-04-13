@@ -32,6 +32,8 @@ spring:
           destination: sink-in-0
         blah-out-0:
           destination: sink-in-0
+        test-out-0:
+          destination: sink-in-0
         getDate-in-0:
           destination: date-out-0
           consumer:
