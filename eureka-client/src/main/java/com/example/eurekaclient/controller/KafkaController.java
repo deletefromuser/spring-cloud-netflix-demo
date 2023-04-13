@@ -108,7 +108,7 @@ public class KafkaController {
     @Qualifier("my-todo-in-0")
     private PollableMessageSource source2;
 
-    @Scheduled(fixedDelay = 5_000)
+    @Scheduled(fixedRate = 15_000)
     public void poll() {
         try {
             log.info("Polling topic [my-todo-in-0]...");
