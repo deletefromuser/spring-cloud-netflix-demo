@@ -1,4 +1,40 @@
 services:
+        # https://github.com/deviantony/docker-elk/blob/main/docker-compose.yml
+  elasticsearch:
+    image: elasticsearch:8.7.0
+    environment:
+      - node.name=elasticsearch
+      - discovery.type=single-node
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ELASTIC_PASSWORD=changeme
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data
+    ports:
+      - 9300:9300
+      - 9200:9200
+  kibana:
+    image: kibana:8.7.0
+    environment:
+      ELASTICSEARCH_URL: "http://elasticsearch:9300"
+      KIBANA_SYSTEM_PASSWORD: "changeme"
+    ports:
+      - 5601:5601
+    volumes:
+      - ${PWD}/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,Z
+  logstash:
+    image: logstash:8.7.0
+    command: logstash -f /etc/logstash/conf.d/logstash.conf
+    volumes:
+      - ${PWD}/config/logstash.conf:/etc/logstash/conf.d/logstash.conf
+    ports:
+      - "5000:5000"
+
   zookeeper:
     image: docker.io/bitnami/zookeeper:3.8
     ports:
@@ -59,6 +95,11 @@ services:
       - "8081:8081"
     environment:
       TZ: "Etc/GMT-8"
+      # https://stackoverflow.com/questions/60035294/how-to-specify-a-list-of-jvm-parameters-for-dockerized-springboot-rest-jar-execu
+      # https://stackoverflow.com/questions/44491257/how-to-reduce-spring-boot-memory-usage
+      # https://www.jvt.me/posts/2022/02/26/spring-environment-variable-go/
+      JAVA_OPTS: "-XX:+UseSerialGC -Xss512k -XX:MaxRAM=72m"
+      SERVER_TOMCAT_MAXTHREADS: "50"
     volumes:
       - ${PWD}/curl-amd64:/bin/curl
     healthcheck:
@@ -237,4 +278,6 @@ volumes:
   zookeeper_data:
     driver: local
   kafka_data:
+    driver: local
+  esdata1:
     driver: local
