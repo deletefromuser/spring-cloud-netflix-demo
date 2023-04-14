@@ -43,7 +43,7 @@
     </appender>
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [appname,traceId,spanId,exportable] [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS} [%X{appname},%X{traceId},%X{spanId},%X{exportable}] [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -52,4 +52,4 @@
         <appender-ref ref="LOGSTASH2" />
         <appender-ref ref="console" />
     </root>
-</configuration>
+</configuration> 
