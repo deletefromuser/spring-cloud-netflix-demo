@@ -4,6 +4,43 @@
         <destination>10.0.2.15:50000</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender>
+    <appender name="LOGSTASH2" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>10.0.2.15:50000</destination>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <mdc>
+                    <excludeMdcKeyName>X-B3-TraceId</excludeMdcKeyName>
+                    <excludeMdcKeyName>X-B3-SpanId</excludeMdcKeyName>
+                    <excludeMdcKeyName>X-B3-ParentSpanId</excludeMdcKeyName>
+                </mdc>
+                <context/>
+                <version/>
+                <logLevel/>
+                <loggerName/>
+                <pattern>
+                    <pattern>
+                        <omitEmptyFields>true</omitEmptyFields>
+                        {
+                            "application": {
+                                "version": "1.0"
+                            },
+                            "trace": {
+                                "trace_id": "%mdc{traceId}",
+                                "span_id": "%mdc{spanId}",
+                                "parent_span_id": "%mdc{X-B3-ParentSpanId}",
+                                "exportable": "%mdc{spanExportable}"
+                            }
+                        }
+                    </pattern>
+                </pattern>
+                <threadName/>
+                <message/>
+                <logstashMarkers/>
+                <arguments/>
+                <stackTrace/>
+            </providers>
+        </encoder>
+    </appender>
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [appname,traceId,spanId,exportable] [%thread] %-5level %logger{36} - %msg%n</pattern>
@@ -12,6 +49,7 @@
 
     <root level="INFO">
         <appender-ref ref="LOGSTASH" />
+        <appender-ref ref="LOGSTASH2" />
         <appender-ref ref="console" />
     </root>
 </configuration>
