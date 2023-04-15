@@ -41,6 +41,9 @@ docker exec -it spring-cloud-config-server_1 bash
 # build docker image with spring boot
 mvn spring-boot:build-image -DskipTests
 sudo docker run -d --name config-server_1 -e "SPRING_PROFILES_ACTIVE=docker"  -p8888:8888 config-server:0.0.1-SNAPSHOT
+
+# recreate instance in compose
+docker compose create logstash
 ```
 
 # docker compose
@@ -57,6 +60,13 @@ watch -n 5 'docker ps -a | grep netflix'
 # restart eureka-client only
 git pull && (cd eureka-client/ && mvn spring-boot:build-image -DskipTests) && docker stop spring-cloud-netflix-demo-eureka-client-1 && docker rm spring-cloud-netflix-demo-eureka-client-1 && docker compose up -d --no-recreate
 git pull && (cd eureka-client-consumer/ && mvn spring-boot:build-image -DskipTests) && docker stop spring-cloud-netflix-demo-eureka-client-consumer-1 && docker rm spring-cloud-netflix-demo-eureka-client-consumer-1 && docker compose up -d --no-recreate
+
+git pull && (cd eureka-client/ && mvn spring-boot:build-image -DskipTests) && docker compose create eureka-client && docker start spring-cloud-netflix-demo-eureka-client-1
+git pull && (cd eureka-client-consumer/ && mvn spring-boot:build-image -DskipTests) && docker compose create eureka-client-consumer && docker start spring-cloud-netflix-demo-eureka-client-consumer-1
+
+git pull && (cd eureka-client/ && mvn spring-boot:build-image -DskipTests) && docker compose create eureka-client && docker start spring-cloud-netflix-demo-eureka-client-1 && (cd eureka-client-consumer/ && mvn spring-boot:build-image -DskipTests) && docker compose create eureka-client-consumer && docker start spring-cloud-netflix-demo-eureka-client-consumer-1
+
+git pull && (cd gateway-server/ && mvn spring-boot:build-image -DskipTests) && docker stop spring-cloud-netflix-demo-gateway-server-1 spring-cloud-netflix-demo-gateway-server-2-1 && docker rm spring-cloud-netflix-demo-gateway-server-1 spring-cloud-netflix-demo-gateway-server-2-1 && docker compose create --no-recreate gateway-server gateway-server-2 && docker start spring-cloud-netflix-demo-gateway-server-1
 
 docker logs -f --tail 1000 spring-cloud-netflix-demo-eureka-client-1
 
@@ -106,8 +116,14 @@ docker stop spring-cloud-netflix-demo-elasticsearch-1 spring-cloud-netflix-demo-
 docker rm spring-cloud-netflix-demo-elasticsearch-1 spring-cloud-netflix-demo-kibana-1 spring-cloud-netflix-demo-logstash-1
 docker compose up -d --no-recreate
 
+# set password
 docker exec -u 0 -it spring-cloud-netflix-demo-elasticsearch-1 bash
 bin/elasticsearch-setup-passwords interactive
+
+curl -XGET -k -u logstash_system:changeme http://elasticsearch:9200/
+
+# https://www.elastic.co/guide/en/logstash/current/ls-security.html#ls-http-auth-basic
+
 ```
 
 
