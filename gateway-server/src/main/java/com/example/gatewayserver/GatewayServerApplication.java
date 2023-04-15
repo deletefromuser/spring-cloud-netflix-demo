@@ -1,10 +1,11 @@
 package com.example.gatewayserver;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpHeaders;
 
 import com.example.gatewayserver.filter.FilterUtils;
 
@@ -19,17 +20,19 @@ public class GatewayServerApplication {
 		SpringApplication.run(GatewayServerApplication.class, args);
 	}
 
-	// @Bean
-	// public GlobalFilter postGlobalFilter() {
-	// 	return (exchange, chain) -> {
-	// 		return chain.filter(exchange).then(Mono.fromRunnable(() -> {
-	// 			HttpHeaders requestHeaders = exchange.getRequest().getHeaders();
-	// 			String correlationId = FilterUtils.getCorrelationId(requestHeaders);
-	// 			log.debug("Adding the correlation id to the outbound headers. {}", correlationId);
-	// 			exchange.getResponse().getHeaders().add(FilterUtils.CORRELATION_ID, correlationId);
-	// 			log.debug("Completing outgoing request for {}.", exchange.getRequest().getURI());
-	// 		}));
-	// 	};
-	// }
+	@Autowired
+	private Tracer tracer;
+
+	@Bean
+	public GlobalFilter postGlobalFilter() {
+		return (exchange, chain) -> {
+			return chain.filter(exchange).then(Mono.fromRunnable(() -> {
+				String traceId = tracer.currentSpan().context().traceId();
+				log.debug("Adding the correlation id to the outbound headers. {}", traceId);
+				exchange.getResponse().getHeaders().add(FilterUtils.CORRELATION_ID, traceId);
+				log.debug("Completing outgoing request for {}.", exchange.getRequest().getURI());
+			}));
+		};
+	}
 
 }
