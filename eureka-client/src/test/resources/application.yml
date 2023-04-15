@@ -1,0 +1,118 @@
+spring:
+  application:
+    name: eureka-client-todo-service
+  # https://stackoverflow.com/questions/67507452/no-spring-config-import-property-has-been-defined
+  # config:
+    # import: configserver:http://config-server:8888
+  # integration:
+  #   poller:
+  #     cron: "0/25 * * * * *"
+  #     max-messages-per-poll: 3
+  cloud:
+    config:
+      enabled: false
+      label: eureka-client
+    function:
+      definition: uppercase;date;sink;getDate;stringSupplier
+      # autodetect: false
+    stream:
+      input-bindings: fooin;barin
+      output-bindings: fooout;barout
+      pollable-source: blah;my-todo
+      bindings:
+        uppercase-in-0:
+          destination: my-topic
+        # uppercase-in-0: my-input
+        # my-input:
+        #   destination: my-topic
+          group: my-group
+          consumer:
+            concurrency: 10
+            max-attempts: 3
+        uppercase-out-0:
+          destination: sink-in-0
+        blah-out-0:
+          destination: sink-in-0
+        test-out-0:
+          destination: test
+          binder: kafka
+        getDate-in-0:
+          destination: date-out-0
+          consumer:
+            concurrency: 10
+            # use-native-decoding: true
+        date-out-0:
+          producer:
+            poller:
+              cron: "27 * * * * *"
+              # fixed-delay: 125s
+              # max-messages-per-poll: 2
+      kafka:
+        binder:
+          brokers: kafka:9092
+
+  kafka:
+    bootstrap-servers:
+      - kafka:9092
+    # producer:
+    #   properties:
+    # #     "[value.serializer]": org.springframework.kafka.support.serializer.JsonSerializer
+    #     "[value.serializer]": org.apache.kafka.common.serialization.StringSerializer
+    #     "[key.serializer]": org.apache.kafka.common.serialization.StringSerializer
+    # consumer:
+    #   properties:
+    #     "[value.deserializer]": org.apache.kafka.common.serialization.StringDeserializer
+    #     "[key.deserializer]": org.apache.kafka.common.serialization.StringDeserializer
+    #     "[spring.json.trusted.packages]": "*"
+
+server:
+  port: 8887
+eureka:
+#   client:
+#     serviceUrl:
+#       defaultZone: 
+#          http://localhost:8761/eureka,
+#          http://localhost:8762/eureka
+        # ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: info, health, httptrace, configprops, beans, auditevents
+
+  endpoint:
+    info:
+      enabled: true
+    health:
+      enabled: true
+      show-details: always
+    configprops:
+      enabled: true
+    beans:
+      enabled: true
+    httptrace:
+      enabled: true
+    auditevents:
+      enabled: true
+  trace:
+    http:
+      enabled: true
+
+  info:
+    env:
+      enabled: true
+    java:
+      enabled: true
+    os:
+      enabled: true
+
+logging:
+  config: classpath:logback-spring.xml
+  # level:
+  #   root: info
+  #   "[com.example.eurekaclient.intercepter.LoggerInterceptor]": info
+    # "[org.springframework.web.servlet.DispatcherServlet]": debug
