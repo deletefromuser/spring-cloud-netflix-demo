@@ -45,7 +45,7 @@
     </appender>
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{YYYY-MM-DD_HH:mm:ss.SSS} [%X{appname},%X{traceId},%X{spanId},%X{exportable}] [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{YYYY-MM-DD_HH:mm:ss.SSS} [${application_name},%X{traceId},%X{spanId},%X{exportable}] [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
