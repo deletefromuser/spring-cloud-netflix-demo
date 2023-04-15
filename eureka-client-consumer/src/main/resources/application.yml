@@ -117,7 +117,9 @@ cc:
 
 logging:
   level:
-    root: info
+    org:
+      springframework:
+        security: DEBUG
 
 ---
 spring:
@@ -125,10 +127,6 @@ spring:
     activate:
       on-profile: docker
 
-logging:
-  config: classpath:logback-spring.xml
-  # level:
-  #   org:
-  #     springframework:
-  #       security: DEBUG
+# logging:
+#   config: classpath:logback-spring.xml
 
