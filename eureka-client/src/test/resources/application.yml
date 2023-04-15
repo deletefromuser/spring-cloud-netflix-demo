@@ -110,6 +110,12 @@ management:
     os:
       enabled: true
 
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
 logging:
   config: classpath:logback-spring.xml
   # level:

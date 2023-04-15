@@ -115,6 +115,12 @@ cc:
   asako:
     url: '{cipher}7fc127543d017234b3e56cfe7ef0aeded3e9a8f8edea99098441d6bcbfcce630' #asako.cc
 
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
 logging:
   config: classpath:logback-spring.xml
   # level:
