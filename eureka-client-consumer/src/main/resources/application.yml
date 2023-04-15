@@ -117,6 +117,7 @@ cc:
 
 logging:
   level:
+    root: info
     org:
       springframework:
         security: DEBUG
