@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.cloud.sleuth.Span;
+import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.context.annotation.Bean;
 
 import com.example.gatewayserver.filter.FilterUtils;
 
-import brave.Tracer;
 import lombok.extern.slf4j.Slf4j;
-import reactor.core.publisher.Mono;
 
 @SpringBootApplication
 @Slf4j
@@ -26,12 +26,17 @@ public class GatewayServerApplication {
 	@Bean
 	public GlobalFilter postGlobalFilter() {
 		return (exchange, chain) -> {
-			return chain.filter(exchange).then(Mono.fromRunnable(() -> {
-				String traceId = tracer.currentSpan().context().traceIdString();
-				log.debug("Adding the correlation id to the outbound headers. {}", traceId);
-				exchange.getResponse().getHeaders().add(FilterUtils.CORRELATION_ID, traceId);
-				log.debug("Completing outgoing request for {}.", exchange.getRequest().getURI());
-			}));
+			{
+				Span currentSpan = tracer.currentSpan();
+				if (currentSpan != null) {
+					String traceId = tracer.currentSpan().context().traceId();
+					log.debug("Adding the correlation id to the outbound headers. {}", traceId);
+					exchange.getResponse().getHeaders().add(FilterUtils.CORRELATION_ID, traceId);
+					log.debug("Completing outgoing request for {}.", exchange.getRequest().getURI());
+				}
+
+				return chain.filter(exchange);
+			}
 		};
 	}
 
