@@ -109,6 +109,10 @@ management:
     os:
       enabled: true
 
+logging:
+  level:
+    root: info
+
 ---
 spring:
   config:
