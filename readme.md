@@ -73,7 +73,7 @@ git pull && (cd eureka-client/ && mvn spring-boot:build-image -DskipTests) && do
 
 git pull && (cd gateway-server/ && mvn spring-boot:build-image -DskipTests) && docker stop spring-cloud-netflix-demo-gateway-server-1 spring-cloud-netflix-demo-gateway-server-2-1 && docker rm spring-cloud-netflix-demo-gateway-server-1 spring-cloud-netflix-demo-gateway-server-2-1 && docker compose create --no-recreate gateway-server gateway-server-2 && docker start spring-cloud-netflix-demo-gateway-server-1
 
-(cd eureka-client-consumer/ && mvn spring-boot:build-image -DskipTests) && (cd eureka-client-consumer/ && mvn spring-boot:build-image -DskipTests) && (cd gateway-server/ && mvn spring-boot:build-image -DskipTests)
+(cd eureka-client-consumer/ && mvn spring-boot:build-image -DskipTests) && (cd eureka-client-consumer/ && mvn spring-boot:build-image -DskipTests) && (cd gateway-server/ && mvn spring-boot:build-image -DskipTests) && docker compose restart gateway-server gateway-server-2
 
 docker logs -f --tail 1000 spring-cloud-netflix-demo-eureka-client-1
 
