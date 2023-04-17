@@ -1,3 +1,0 @@
-[submodule "config-server/todo-config"]
-	path = config-server/todo-config
-	url = http://localhost:10880/gogs/todo-config.git
