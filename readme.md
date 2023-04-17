@@ -19,6 +19,11 @@ sudo docker start gogs
 # port 8081
 ```
 
+```bash
+# git config file backup
+(cd config-server/todo-config && curl http://localhost:10880/gogs/todo-config/archive/master.zip > master.zip)
+(cd config-server/todo-config && curl http://localhost:10880/gogs/todo-config/archive/eureka-client.zip > todo-config-eureka-client.zip)
+```
 
 ```bash
 # refresh gateway routes
@@ -47,7 +52,7 @@ docker compose create logstash
 ```
 
 # docker compose
-```
+```bash
 (cd config-server/ && mvn spring-boot:build-image -DskipTests)
 (cd service-registry/ && mvn spring-boot:build-image -DskipTests)
 (cd gateway-server/ && mvn spring-boot:build-image -DskipTests)
@@ -67,6 +72,8 @@ git pull && (cd eureka-client-consumer/ && mvn spring-boot:build-image -DskipTes
 git pull && (cd eureka-client/ && mvn spring-boot:build-image -DskipTests) && docker compose create eureka-client && docker start spring-cloud-netflix-demo-eureka-client-1 && (cd eureka-client-consumer/ && mvn spring-boot:build-image -DskipTests) && docker compose create eureka-client-consumer && docker start spring-cloud-netflix-demo-eureka-client-consumer-1
 
 git pull && (cd gateway-server/ && mvn spring-boot:build-image -DskipTests) && docker stop spring-cloud-netflix-demo-gateway-server-1 spring-cloud-netflix-demo-gateway-server-2-1 && docker rm spring-cloud-netflix-demo-gateway-server-1 spring-cloud-netflix-demo-gateway-server-2-1 && docker compose create --no-recreate gateway-server gateway-server-2 && docker start spring-cloud-netflix-demo-gateway-server-1
+
+(cd eureka-client-consumer/ && mvn spring-boot:build-image -DskipTests) && (cd eureka-client-consumer/ && mvn spring-boot:build-image -DskipTests) && (cd gateway-server/ && mvn spring-boot:build-image -DskipTests)
 
 docker logs -f --tail 1000 spring-cloud-netflix-demo-eureka-client-1
 
