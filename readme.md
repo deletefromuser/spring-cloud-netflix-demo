@@ -63,6 +63,7 @@ docker compose create logstash
 watch -n 5 'docker ps -a | grep netflix'
 
 # restart eureka-client only
+git pull && (cd eureka-client/ && mvn spring-boot:build-image -DskipTests) && docker compose up -d --force-recreate --no-deps eureka-client
 git pull && (cd eureka-client/ && mvn spring-boot:build-image -DskipTests) && docker stop spring-cloud-netflix-demo-eureka-client-1 && docker rm spring-cloud-netflix-demo-eureka-client-1 && docker compose up -d --no-recreate
 git pull && (cd eureka-client-consumer/ && mvn spring-boot:build-image -DskipTests) && docker stop spring-cloud-netflix-demo-eureka-client-consumer-1 && docker rm spring-cloud-netflix-demo-eureka-client-consumer-1 && docker compose up -d --no-recreate
 

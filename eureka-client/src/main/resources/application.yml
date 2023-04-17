@@ -113,7 +113,9 @@ logging:
   level:
     root: info
     "[com.example.eurekaclient.intercepter.LoggerInterceptor]": info
-    "[org.springframework.web.servlet.DispatcherServlet]": debug
+    # "[org.springframework.web.servlet.DispatcherServlet]": debug
+    "[org.apache.kafka]": warn
+    "[com.example.eurekaclient.controller.KafkaController]": warn
 
 ---
 spring:
