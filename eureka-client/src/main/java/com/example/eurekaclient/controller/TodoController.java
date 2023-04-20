@@ -13,10 +13,12 @@ import org.springframework.web.client.RestTemplate;
 
 import com.example.eurekaclient.model.Todo;
 
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
+@NoArgsConstructor
 public class TodoController {
 
     RestTemplate restTemplate;
