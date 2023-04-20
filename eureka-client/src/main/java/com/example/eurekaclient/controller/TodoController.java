@@ -13,12 +13,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.example.eurekaclient.model.Todo;
 
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
-@NoArgsConstructor
 public class TodoController {
 
     RestTemplate restTemplate;
@@ -28,10 +26,6 @@ public class TodoController {
     public TodoController(RestTemplate restTemplate, Tracer tracer) {
         this.restTemplate = restTemplate;
         this.tracer = tracer;
-    }
-
-    public TodoController(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
     }
 
     private List<Todo> list;
