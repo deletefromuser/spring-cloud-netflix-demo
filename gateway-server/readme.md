@@ -6,3 +6,5 @@
 #### worked
 `curl localhost:8073/actuator/refresh -X POST`
 
+
+
