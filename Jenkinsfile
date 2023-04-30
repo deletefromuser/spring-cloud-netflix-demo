@@ -10,6 +10,7 @@ pipeline {
                 echo '#### java $$$$'
                 sh 'cd config-server'
                 sh 'ls -lrt'
+                sh 'whoami'
             }
         }
     }
