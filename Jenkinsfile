@@ -13,6 +13,7 @@ pipeline {
                 sh 'ls -lrt'
                 sh 'whoami'
                 sh 'uname -a'
+                sh 'lsb_release -a'
                 sh 'docker ps'
             }
         }
