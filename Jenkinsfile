@@ -11,6 +11,7 @@ pipeline {
                 sh 'cd config-server'
                 sh 'ls -lrt'
                 sh 'whoami'
+                sh 'docker ps'
             }
         }
     }
