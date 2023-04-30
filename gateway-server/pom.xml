@@ -86,6 +86,7 @@
 							<HTTPS_PROXY>http://10.0.2.15:1086</HTTPS_PROXY>
 						</env>
 						<pullPolicy>IF_NOT_PRESENT</pullPolicy>
+						<publish>true</publish>
 					</image>
 					<layers>
 						<enabled>true</enabled>
