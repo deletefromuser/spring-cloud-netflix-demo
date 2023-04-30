@@ -93,8 +93,8 @@
 					</layers>
 					<docker>
 						<publishRegistry>
-							<username></username>
-							<password></password>
+							<username>dummy</username>
+							<password>dummy</password>
 							<url>http://10.0.2.15:5000</url>
 						</publishRegistry>
 					</docker>
