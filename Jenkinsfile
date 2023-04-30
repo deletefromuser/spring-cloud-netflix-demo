@@ -8,6 +8,8 @@ pipeline {
             steps {
                 echo 'Hello World'
                 echo '#### java $$$$'
+                sh 'cd config-server'
+                sh 'll -lrt'
             }
         }
     }
