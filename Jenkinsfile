@@ -8,6 +8,7 @@ pipeline {
             steps {
                 echo 'Hello World'
                 echo '#### java $$$$'
+                sh 'pwd'
                 sh 'cd config-server'
                 sh 'ls -lrt'
                 sh 'whoami'
