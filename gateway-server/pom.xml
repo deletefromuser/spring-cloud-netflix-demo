@@ -90,6 +90,13 @@
 					<layers>
 						<enabled>true</enabled>
 					</layers>
+					<docker>
+						<publishRegistry>
+							<!-- <username>abc</username>
+							<token>mytoken</token> -->
+							<url>http://10.0.2.15:5000</url>
+						</publishRegistry>
+					</docker>
 				</configuration>
 			</plugin>
 		</plugins>
