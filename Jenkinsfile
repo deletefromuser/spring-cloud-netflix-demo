@@ -15,7 +15,8 @@ pipeline {
                 sh 'uname -a'
                 sh 'lsb_release -a'
                 sh 'docker ps'
-                sh '(cd gateway-server/ && mvn spring-boot:build-image -DskipTests)'
+                def mvnHome = tool name: 'Apache Maven 3.6.0', type: 'maven'
+                sh '(cd gateway-server/ && ${mvnHome}/bin/mvn spring-boot:build-image -DskipTests)'
             }
         }
     }
