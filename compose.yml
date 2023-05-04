@@ -253,6 +253,8 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     healthcheck:
       # test: ["CMD", "(nc", "-z", "-w", "3", "localhost:22", "&&", "curl", "-o", "/dev/null", "-sS", "http://localhost:3000/healthcheck)", "||", "exit", "1"]
       test: (nc -z -w 3 localhost:22 && curl -o /dev/null -sS http://localhost:3000/healthcheck) || exit 1
