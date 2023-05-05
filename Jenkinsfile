@@ -27,7 +27,7 @@ pipeline {
                 sh 'uname -a'
                 sh 'lsb_release -a'
                 sh 'docker ps'
-                sh '(cd gateway-server/ && ${mvnHome}/bin/mvn spring-boot:build-image -DskipTests)'
+                sh '(cd gateway-server/ && mvn spring-boot:build-image -DskipTests)'
             }
         }
     }
