@@ -88,9 +88,6 @@
 						</env>
 						<pullPolicy>IF_NOT_PRESENT</pullPolicy>
 						<publish>true</publish>
-						<!-- <bindings>
-							<binding>${basedir}/../config/bindings/ca-certificates:/platform/bindings/ca-certificates</binding>
-						</bindings> -->
 					</image>
 					<layers>
 						<enabled>true</enabled>
