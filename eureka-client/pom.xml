@@ -100,11 +100,13 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<image>
+						<name>10.0.2.15/${project.artifactId}:${project.version}</name>
 						<env>
 							<HTTP_PROXY>http://10.0.2.15:1086</HTTP_PROXY>
 							<HTTPS_PROXY>http://10.0.2.15:1086</HTTPS_PROXY>
 						</env>
 						<pullPolicy>IF_NOT_PRESENT</pullPolicy>
+						<publish>true</publish>
 					</image>
 					<layers>
 						<enabled>true</enabled>
