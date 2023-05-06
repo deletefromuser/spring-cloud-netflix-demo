@@ -81,24 +81,21 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<image>
-					<name>10.0.2.15/gateway-server:0.0.1-SNAPSHOT</name>
+						<name>10.0.2.15/gateway-server:0.0.1-SNAPSHOT</name>
 						<env>
 							<HTTP_PROXY>http://10.0.2.15:1086</HTTP_PROXY>
 							<HTTPS_PROXY>http://10.0.2.15:1086</HTTPS_PROXY>
 						</env>
 						<pullPolicy>IF_NOT_PRESENT</pullPolicy>
 						<publish>true</publish>
-						<bindings>
-                <binding>${basedir}/bindings/ca-certificates:/platform/bindings/ca-certificates</binding>
-            </bindings>
+						<!-- <bindings>
+							<binding>${basedir}/bindings/ca-certificates:/platform/bindings/ca-certificates</binding>
+						</bindings>
 					</image>
 					<layers>
 						<enabled>true</enabled>
 					</layers>
-					<docker>
-
-                        <tlsVerify>false</tlsVerify>
-                    </docker>
+					<!-- <docker>
 				</configuration>
 			</plugin>
 		</plugins>
